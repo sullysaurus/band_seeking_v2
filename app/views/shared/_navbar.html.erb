@@ -1,0 +1,15 @@
+<nav class="bg-gray-900 text-white p-4 flex justify-between items-center">
+  <div>
+    <%= link_to "Band App", root_path, class: "text-xl font-bold" %>
+  </div>
+
+  <div>
+    <% if user_signed_in? %>
+      <%= link_to "Profile", profile_path(current_user.profile), class: "px-4" %>
+      <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "px-4" %>
+    <% else %>
+      <%= link_to "Sign In", new_user_session_path, class: "px-4" %>
+      <%= link_to "Sign Up", new_user_registration_path, class: "px-4" %>
+    <% end %>
+  </div>
+</nav>

@@ -1,0 +1,14 @@
+<h1><%= @profile.user.username %>'s Profile</h1>
+
+<p><strong>Bio:</strong> <%= @profile.bio %></p>
+<p><strong>City:</strong> <%= @profile.city %></p>
+<p><strong>State:</strong> <%= @profile.state %></p>
+<p><strong>Experience Level:</strong> <%= @profile.experience_level %></p>
+<p><strong>Availability:</strong> <%= @profile.availability %></p>
+<p><strong>Looking For:</strong> <%= @profile.looking_for %></p>
+<p><strong>Spotify:</strong> <%= link_to @profile.spotify_link, @profile.spotify_link if @profile.spotify_link.present? %></p>
+<p><strong>Youtube:</strong> <%= link_to @profile.youtube_link, @profile.youtube_link if @profile.youtube_link.present? %></p>
+<p><strong>Instagram:</strong> <%= link_to @profile.instagram_link, @profile.instagram_link if @profile.instagram_link.present? %></p>
+<p><strong>Website:</strong> <%= link_to @profile.website_url, @profile.website_url if @profile.website_url.present? %></p>
+
+<%= link_to "Edit Profile", edit_profile_path(@profile) %>
