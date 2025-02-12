@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_12_151637) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_12_165532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -79,6 +79,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_151637) do
     t.string "website_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "profile_photo"
+    t.string "banner_image"
     t.index ["instruments_played"], name: "index_profiles_on_instruments_played", using: :gin
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end

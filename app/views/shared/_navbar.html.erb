@@ -40,7 +40,7 @@
       <% else %>
         <%= link_to "Create Profile", new_profile_path, class: "block py-2 text-center hover:text-gray-300 transition" %>
       <% end %>
-      <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "block py-2 text-center hover:text-gray-300 transition" %>
+      <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "hover:text-gray-300 transition" %>
     <% else %>
       <%= link_to "Sign In", new_user_session_path, class: "block py-2 text-center hover:text-gray-300 transition" %>
       <%= link_to "Sign Up", new_user_registration_path, class: "block py-2 text-center bg-blue-600 hover:bg-blue-700 rounded-lg transition" %>

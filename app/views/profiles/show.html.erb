@@ -1,14 +1,61 @@
-<h1><%= @profile.user.username %>'s Profile</h1>
+<div class="min-h-screen flex flex-col items-center bg-gray-100 px-6 py-12">
+  <div class="bg-white shadow-lg rounded-lg w-full max-w-4xl p-8" data-controller="profile">
 
-<p><strong>Bio:</strong> <%= @profile.bio %></p>
-<p><strong>City:</strong> <%= @profile.city %></p>
-<p><strong>State:</strong> <%= @profile.state %></p>
-<p><strong>Experience Level:</strong> <%= @profile.experience_level %></p>
-<p><strong>Availability:</strong> <%= @profile.availability %></p>
-<p><strong>Looking For:</strong> <%= @profile.looking_for %></p>
-<p><strong>Spotify:</strong> <%= link_to @profile.spotify_link, @profile.spotify_link if @profile.spotify_link.present? %></p>
-<p><strong>Youtube:</strong> <%= link_to @profile.youtube_link, @profile.youtube_link if @profile.youtube_link.present? %></p>
-<p><strong>Instagram:</strong> <%= link_to @profile.instagram_link, @profile.instagram_link if @profile.instagram_link.present? %></p>
-<p><strong>Website:</strong> <%= link_to @profile.website_url, @profile.website_url if @profile.website_url.present? %></p>
+    <!-- Banner Image Upload -->
+    <div class="relative w-full h-64 bg-gray-300 flex items-center justify-center rounded-t-lg">
+      <% if @profile.banner_image.attached? %>
+        <%= image_tag @profile.banner_image, class: "w-full h-full object-cover rounded-t-lg", data: { profile_preview: "banner" } %>
+      <% else %>
+        <%= image_tag "default.jpg", class: "w-full h-full object-cover rounded-t-lg", alt: "Default banner" %>
+      <% end %>
+      <%= form_with model: @profile, url: profile_path(@profile), method: :patch, local: true, html: { multipart: true, class: "absolute inset-0 opacity-0 cursor-pointer" } do |f| %>
+        <%= f.file_field :banner_image, accept: "image/*", class: "w-full h-full opacity-0 cursor-pointer", data: { action: "change->profile#previewImage", section: "banner" } %>
+      <% end %>
+    </div>
 
-<%= link_to "Edit Profile", edit_profile_path(@profile) %>
+    <!-- Profile Photo Upload -->
+    <div class="relative flex flex-col items-center -mt-16">
+      <% if @profile.profile_photo.attached? %>
+        <%= image_tag @profile.profile_photo, class: "w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover", data: { profile_preview: "profile_photo" } %>
+      <% else %>
+        <%= image_tag "default.jpg", class: "w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover", alt: "Default profile photo" %>
+      <% end %>
+      <%= form_with model: @profile, url: profile_path(@profile), method: :patch, local: true, html: { multipart: true, class: "absolute w-32 h-32 opacity-0 cursor-pointer" } do |f| %>
+        <%= f.file_field :profile_photo, accept: "image/*", class: "absolute w-32 h-32 opacity-0 cursor-pointer", data: { action: "change->profile#previewImage", section: "profile_photo" } %>
+      <% end %>
+    </div>
+
+    <!-- Profile Header -->
+    <div class="text-center mt-4">
+      <h2 class="text-3xl font-extrabold text-gray-900" data-profile-display="username">
+        <%= @profile.user.username %>
+      </h2>
+      <%= form_with model: @profile.user, url: profile_path(@profile), method: :patch, local: true, html: { class: "hidden", data: { profile_form: "username" } } do |f| %>
+        <%= f.text_field :username, class: "w-full p-2 border border-gray-300 rounded-md" %>
+        <%= f.submit "Save", class: "bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition" %>
+      <% end %>
+      <button data-action="click->profile#toggleEdit" data-section="username" class="text-blue-500 hover:underline text-sm">Edit</button>
+
+      <p class="text-gray-500 text-sm mt-1">
+        <span data-profile-display="city"><%= @profile.city.presence || "City not provided" %></span>,
+        <span data-profile-display="state"><%= @profile.state.presence || "State not provided" %></span>
+      </p>
+      <%= form_with model: @profile, url: profile_path(@profile), method: :patch, local: true, html: { class: "hidden", data: { profile_form: "city-state" } } do |f| %>
+        <div class="flex justify-center space-x-4">
+          <%= f.text_field :city, class: "w-1/2 p-2 border border-gray-300 rounded-md" %>
+          <%= f.text_field :state, class: "w-1/2 p-2 border border-gray-300 rounded-md" %>
+        </div>
+        <%= f.submit "Save", class: "bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition mt-2" %>
+      <% end %>
+      <button data-action="click->profile#toggleEdit" data-section="city-state" class="text-blue-500 hover:underline text-sm">Edit</button>
+    </div>
+
+    <!-- Profile Sections -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+      <% ["bio", "experience_level", "availability", "looking_for", "instruments_played"].each do |field| %>
+        <%= render "profiles/editable_section", profile: @profile, attribute: field, label: field.humanize %>
+      <% end %>
+    </div>
+
+  </div>
+</div>

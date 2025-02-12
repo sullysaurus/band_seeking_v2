@@ -1,0 +1,30 @@
+<div class="bg-white shadow-md rounded-lg p-6 relative">
+  <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4"><%= label %></h3>
+
+  <!-- Display Mode -->
+  <% if attribute == "profile_photo" || attribute == "banner_image" %>
+    <% if profile.send(attribute).attached? %>
+      <%= image_tag profile.send(attribute), class: "w-full h-64 object-cover rounded-md", data: { profile_preview: attribute } %>
+    <% else %>
+      <%= image_tag "default.jpg", class: "w-full h-64 object-cover rounded-md", alt: "Default #{label.downcase}" %>
+    <% end %>
+  <% else %>
+    <p class="text-gray-600" data-profile-display="<%= attribute %>">
+      <%= profile.send(attribute).presence || "Click edit to add #{label.downcase}" %>
+    </p>
+  <% end %>
+
+  <!-- Edit Mode -->
+  <%= form_with model: profile, url: profile_path(profile), method: :patch, local: true, html: { class: "hidden space-y-2", data: { profile_form: attribute } } do |f| %>
+    <% if attribute == "profile_photo" || attribute == "banner_image" %>
+      <%= f.file_field attribute, accept: "image/*", class: "w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500", data: { action: "change->profile#previewImage" } %>
+    <% elsif attribute == "instruments_played" %>
+      <%= f.text_field attribute, class: "w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500", placeholder: "Comma-separated values" %>
+    <% else %>
+      <%= f.text_field attribute, class: "w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" %>
+    <% end %>
+    <%= f.submit "Save", class: "bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition" %>
+  <% end %>
+
+  <button data-action="click->profile#toggleEdit" data-section="<%= attribute %>" class="absolute top-0 right-0 text-blue-500 hover:underline text-sm">Edit</button>
+</div>
