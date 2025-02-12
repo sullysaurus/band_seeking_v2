@@ -1,0 +1,48 @@
+<div class="min-h-screen grid place-items-center bg-gray-100 px-6">
+  <div class="bg-white p-12 shadow-2xl rounded-xl w-full max-w-md">
+    
+    <!-- Title -->
+    <h2 class="text-3xl font-extrabold text-center text-gray-800 mb-8">Sign In</h2>
+
+    <!-- Devise Error Messages -->
+    <% if resource.errors.any? %>
+      <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
+        <strong>Oops! Something went wrong:</strong>
+        <ul class="list-disc list-inside">
+          <% resource.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Sign-In Form -->
+    <%= form_with model: resource, url: session_path(resource_name), local: true, class: "space-y-6" do |f| %>
+      
+      <div>
+        <%= f.label :email, class: "block text-gray-700 font-medium mb-2" %>
+        <%= f.email_field :email, class: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50" %>
+      </div>
+
+      <div>
+        <%= f.label :password, class: "block text-gray-700 font-medium mb-2" %>
+        <%= f.password_field :password, class: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50" %>
+        <div class="text-right mt-2">
+          <%= link_to "Forgot your password?", new_password_path(resource_name), class: "text-blue-500 text-sm hover:underline" %>
+        </div>
+      </div>
+
+      <div>
+        <%= f.submit "Sign In", class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300" %>
+      </div>
+
+    <% end %>
+
+    <!-- Sign Up Link -->
+    <p class="text-gray-600 text-sm text-center mt-6">
+      Don't have an account? 
+      <%= link_to "Sign up", new_user_registration_path, class: "text-blue-600 hover:underline font-medium" %>
+    </p>
+
+  </div>
+</div>

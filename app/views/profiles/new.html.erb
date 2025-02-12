@@ -1,0 +1,30 @@
+<div class="min-h-screen grid place-items-center bg-gray-100 px-6">
+  <div class="bg-white p-8 shadow-lg rounded-lg w-full max-w-md">
+    
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Create Your Profile</h2>
+
+    <%= form_with model: @profile, url: profiles_path, local: true, class: "space-y-4" do |f| %>
+
+      <div>
+        <%= f.label :bio, class: "block text-gray-700 font-medium" %>
+        <%= f.text_area :bio, class: "w-full p-3 border border-gray-300 rounded-md" %>
+      </div>
+
+      <div>
+        <%= f.label :city, class: "block text-gray-700 font-medium" %>
+        <%= f.text_field :city, class: "w-full p-3 border border-gray-300 rounded-md" %>
+      </div>
+
+      <div>
+        <%= f.label :state, class: "block text-gray-700 font-medium" %>
+        <%= f.text_field :state, class: "w-full p-3 border border-gray-300 rounded-md" %>
+      </div>
+
+      <div>
+        <%= f.submit "Create Profile", class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition duration-300" %>
+      </div>
+
+    <% end %>
+
+  </div>
+</div>

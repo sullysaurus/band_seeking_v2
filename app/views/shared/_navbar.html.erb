@@ -3,16 +3,20 @@
     
     <!-- Logo -->
     <div>
-      <%= link_to "🎵 Band App", root_path, class: "text-2xl font-bold tracking-wide hover:text-gray-300 transition" %>
+      <%= link_to "Band Seeking", root_path, class: "text-2xl font-bold tracking-wide hover:text-gray-300 transition" %>
     </div>
 
     <!-- Desktop Menu -->
     <div class="hidden md:flex space-x-6">
       <% if user_signed_in? %>
-        <%= link_to "Profile", profile_path(current_user.profile), class: "hover:text-gray-300 transition" %>
+        <% if current_user.profile.present? %>
+          <%= link_to "Profile", profile_path(current_user.profile), class: "hover:text-gray-300 transition" %>
+        <% else %>
+          <%= link_to "Create Profile", new_profile_path, class: "hover:text-gray-300 transition" %>
+        <% end %>
         <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "hover:text-gray-300 transition" %>
       <% else %>
-        <%= link_to "Sign In", new_user_session_path, class: "hover:text-gray-300 transition" %>
+        <%= link_to "Sign In", new_user_session_path, class: "bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition" %>
         <%= link_to "Sign Up", new_user_registration_path, class: "bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition" %>
       <% end %>
     </div>
@@ -31,7 +35,11 @@
   <!-- Mobile Menu (Hidden by Default) -->
   <div data-navbar-target="menu" class="hidden md:hidden bg-gray-800 p-4">
     <% if user_signed_in? %>
-      <%= link_to "Profile", profile_path(current_user.profile), class: "block py-2 text-center hover:text-gray-300 transition" %>
+      <% if current_user.profile.present? %>
+        <%= link_to "Profile", profile_path(current_user.profile), class: "block py-2 text-center hover:text-gray-300 transition" %>
+      <% else %>
+        <%= link_to "Create Profile", new_profile_path, class: "block py-2 text-center hover:text-gray-300 transition" %>
+      <% end %>
       <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "block py-2 text-center hover:text-gray-300 transition" %>
     <% else %>
       <%= link_to "Sign In", new_user_session_path, class: "block py-2 text-center hover:text-gray-300 transition" %>
