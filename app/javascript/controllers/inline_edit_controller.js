@@ -47,18 +47,13 @@ export default class extends Controller {
       },
       credentials: 'same-origin'
     })
-    .then(response => {
-      if (response.ok) {
-        return response.json()
-      }
-      throw new Error('Network response was not ok')
-    })
+    .then(response => response.json())
     .then(data => {
-      this.displayTarget.textContent = data.display_name || "Click to add your name"
-      this.hideForm()
+      if (data.display_name) {
+        this.displayTarget.textContent = data.display_name
+        this.hideForm()
+      }
     })
-    .catch(error => {
-      console.error('Error:', error)
-    })
+    .catch(error => console.error('Error:', error))
   }
 } 
