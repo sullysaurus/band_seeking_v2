@@ -14,7 +14,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       devise_parameter_sanitizer.permit(:account_update, keys: [
         :username, :email, :password, :password_confirmation,
         profile_attributes: [:bio, :city, :state, :experience_level, :availability, 
-                             :looking_for, :spotify_link, :youtube_link, 
+                             :looking_for, :spotify_url, :youtube_url, 
                              :instagram_link, :website_url, instruments_played: []]
       ])
     end

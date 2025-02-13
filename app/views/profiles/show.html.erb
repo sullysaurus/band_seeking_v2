@@ -14,7 +14,7 @@
                   class: "w-full h-full object-cover",
                   data: { banner_upload_target: "preview" } %>
             <% else %>
-              <div class="w-full h-full bg-gray-200" data-banner-upload-target="preview"></div>
+              <div class="w-full h-full bg-gray-200" data-banner_upload_target="preview"></div>
             <% end %>
             
             <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
@@ -174,7 +174,7 @@
           <div class="mb-6" data-controller="tags">
             <div class="flex items-center mb-3">
               <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
               </svg>
               <h3 class="font-bold text-lg">Instruments</h3>
             </div>
@@ -276,13 +276,13 @@
           </div>
         </div>
 
-        <!-- Social urls Card -->
+        <!-- Social Links Card -->
         <div class="bg-white shadow rounded-lg p-6">
           <div class="flex items-center mb-4">
             <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
             </svg>
-            <h3 class="font-bold text-lg">Social urls</h3>
+            <h3 class="font-bold text-lg">Social Links</h3>
           </div>
           
           <div class="space-y-4">
@@ -378,9 +378,121 @@
       <div class="lg:col-span-8 space-y-6">
         <!-- Spotify Card -->
         <div class="bg-white shadow rounded-lg p-6">
-          <h3 class="font-bold text-lg mb-4">Spotify</h3>
-          <div class="bg-gray-100 h-48 sm:h-64 rounded flex items-center justify-center">
-            <span class="text-gray-500">Spotify embed placeholder</span>
+          <div class="mb-6" data-controller="spotify-url">
+            <div class="flex items-center mb-3">
+              <svg class="w-5 h-5 text-gray-500 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+              </svg>
+              <h3 class="font-bold text-lg">Spotify</h3>
+            </div>
+
+            <% if @profile.spotify_url.present? %>
+              <div class="relative aspect-video rounded-lg overflow-hidden bg-gray-100"
+                   data-spotify-url-target="playerContainer">
+                <iframe 
+                  src="<%= @profile.spotify_url.gsub('spotify.com/', 'spotify.com/embed/') %>"
+                  class="absolute inset-0 w-full h-full"
+                  frameborder="0"
+                  allowtransparency="true"
+                  allow="encrypted-media">
+                </iframe>
+                <div class="absolute top-2 right-2 flex gap-2">
+                  <button class="p-1 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+                          data-action="spotify-url#showEditForm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                    </svg>
+                  </button>
+                  <button class="p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                          data-action="spotify-url#removePlayer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Edit Form -->
+              <div class="hidden mt-2" data-spotify-url-target="editForm">
+                <%= form_with(model: @profile, data: { action: "submit->spotify-url#save" }) do |f| %>
+                  <div class="flex flex-col gap-2">
+                    <div class="relative flex-1">
+                      <%= f.text_field :spotify_url,
+                          value: @profile.spotify_url,
+                          class: "w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                          placeholder: "https://open.spotify.com/track/...",
+                          data: { 
+                            spotify_url_target: "editInput",
+                            action: "keydown->spotify-url#handleKeydown"
+                          } %>
+                      <div class="mt-1 text-sm text-gray-500 flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Paste a Spotify track, album, or playlist URL (e.g., https://open.spotify.com/track/...)
+                      </div>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                      <button type="submit" 
+                              class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+                        Update
+                      </button>
+                      <button type="button" 
+                              class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm"
+                              data-action="click->spotify-url#cancelEdit">
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="aspect-video rounded-lg bg-gray-100 flex items-center justify-center cursor-pointer group"
+                   data-spotify-url-target="addButton"
+                   data-action="click->spotify-url#showForm">
+                <div class="text-gray-400 group-hover:text-gray-600 transition-colors">
+                  <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                  </svg>
+                  <span class="block text-sm mt-2">Add Spotify Track</span>
+                </div>
+              </div>
+
+              <div class="hidden" data-spotify-url-target="form">
+                <%= form_with(model: @profile, data: { action: "submit->spotify-url#save" }) do |f| %>
+                  <div class="mt-2">
+                    <div class="relative">
+                      <%= f.text_field :spotify_url,
+                          class: "w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                          placeholder: "https://open.spotify.com/track/...",
+                          data: { 
+                            spotify_url_target: "input",
+                            action: "keydown->spotify-url#handleKeydown"
+                          } %>
+                      <div class="mt-1 text-sm text-gray-500 flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Paste a Spotify track, album, or playlist URL (e.g., https://open.spotify.com/track/...)
+                      </div>
+                    </div>
+                    
+                    <div class="flex gap-2 mt-2">
+                      <button type="submit" 
+                              class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+                        Add Track
+                      </button>
+                      <button type="button" 
+                              class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm"
+                              data-action="click->spotify-url#cancel">
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
           </div>
         </div>
 
@@ -423,25 +535,35 @@
               <!-- Edit Form -->
               <div class="hidden mt-2" data-youtube-url-target="editForm">
                 <%= form_with(model: @profile, data: { action: "submit->youtube-url#save" }) do |f| %>
-                  <div class="flex gap-2">
-                    <%= f.text_field :youtube_url,
-                        value: @profile.youtube_url,
-                        class: "flex-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-                        placeholder: "Paste YouTube URL here",
-                        data: { 
-                          youtube_url_target: "editInput",
-                          action: "keydown->youtube-url#handleKeydown"
-                        } %>
+                  <div class="flex flex-col gap-2">
+                    <div class="relative flex-1">
+                      <%= f.text_field :youtube_url,
+                          value: @profile.youtube_url,
+                          class: "w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                          placeholder: "https://www.youtube.com/watch?v=XXXXXXXXXXX",
+                          data: { 
+                            youtube_url_target: "editInput",
+                            action: "keydown->youtube-url#handleKeydown"
+                          } %>
+                      <div class="mt-1 text-sm text-gray-500 flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Paste the full YouTube URL (e.g., https://www.youtube.com/watch?v=WeuskcJyoBQ)
+                      </div>
+                    </div>
                     
-                    <button type="submit" 
-                            class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
-                      Update
-                    </button>
-                    <button type="button" 
-                            class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm"
-                            data-action="click->youtube-url#cancelEdit">
-                      Cancel
-                    </button>
+                    <div class="flex gap-2">
+                      <button type="submit" 
+                              class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+                        Update
+                      </button>
+                      <button type="button" 
+                              class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm"
+                              data-action="click->youtube-url#cancelEdit">
+                        Cancel
+                      </button>
+                    </div>
                   </div>
                 <% end %>
               </div>
@@ -460,13 +582,21 @@
               <div class="hidden" data-youtube-url-target="form">
                 <%= form_with(model: @profile, data: { action: "submit->youtube-url#save" }) do |f| %>
                   <div class="mt-2">
-                    <%= f.text_field :youtube_url,
-                        class: "w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-                        placeholder: "Paste YouTube URL here",
-                        data: { 
-                          youtube_url_target: "input",
-                          action: "keydown->youtube-url#handleKeydown"
-                        } %>
+                    <div class="relative">
+                      <%= f.text_field :youtube_url,
+                          class: "w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                          placeholder: "https://www.youtube.com/watch?v=XXXXXXXXXXX",
+                          data: { 
+                            youtube_url_target: "input",
+                            action: "keydown->youtube-url#handleKeydown"
+                          } %>
+                      <div class="mt-1 text-sm text-gray-500 flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Paste the full YouTube URL (e.g., https://www.youtube.com/watch?v=WeuskcJyoBQ)
+                      </div>
+                    </div>
                     
                     <div class="flex gap-2 mt-2">
                       <button type="submit" 
