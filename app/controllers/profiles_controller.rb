@@ -25,10 +25,16 @@ class ProfilesController < ApplicationController
     respond_to do |format|
       if @profile.update(profile_params)
         format.html { redirect_to @profile }
-        format.json { head :ok }
+        format.json { 
+          render json: { 
+            status: :ok, 
+            bio: @profile.bio,
+            display_name: "#{@profile.first_name} #{@profile.last_name}".strip 
+          } 
+        }
       else
         format.html { render :edit }
-        format.json { render json: @profile.errors, status: :unprocessable_entity }
+        format.json { render json: { errors: @profile.errors }, status: :unprocessable_entity }
       end
     end
   end
@@ -40,11 +46,11 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:bio, :city, :state, :experience_level, 
+    params.require(:profile).permit(:bio, :full_name, :city, :state, :experience_level, 
                                     :availability, { looking_for: [] }, 
+                                    { instruments_played: [] },
                                     :spotify_link, :youtube_link, 
                                     :instagram_link, :website_url, 
-                                    :profile_photo, :banner_image,
-                                    { instruments_played: [] })
+                                    :profile_photo, :banner_image)
   end
 end

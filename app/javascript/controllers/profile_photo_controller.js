@@ -5,10 +5,12 @@ export default class extends Controller {
   static targets = ["input", "preview"]
 
   connect() {
-    const container = this.previewTarget.closest('.group')
-    container.addEventListener('click', () => {
-      this.inputTarget.click()
-    })
+    const container = this.element.querySelector('.group')
+    if (container) {
+      container.addEventListener('click', () => {
+        this.inputTarget.click()
+      })
+    }
   }
 
   previewImage(event) {
@@ -30,6 +32,6 @@ export default class extends Controller {
       }
       reader.readAsDataURL(file)
     }
-    this.element.submit()
+    this.element.requestSubmit()
   }
 } 

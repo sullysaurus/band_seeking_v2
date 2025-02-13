@@ -43,18 +43,23 @@
         <%= form_with(model: @profile, data: { controller: "profile-photo" }) do |f| %>
           <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg relative group cursor-pointer">
             <% if @profile.profile_photo.attached? %>
-              <%= image_tag @profile.profile_photo, class: "w-full h-full object-cover", data: { profile_photo_target: "preview" } %>
+              <%= image_tag @profile.profile_photo, 
+                  class: "w-full h-full object-cover", 
+                  data: { profile_photo_target: "preview" } %>
             <% else %>
-              <div class="w-full h-full flex items-center justify-center bg-blue-500 text-white text-3xl sm:text-4xl font-bold" data-profile_photo_target="preview">
-                <%= @profile.try(:name).present? ? @profile.name.first.upcase : '?' %>
+              <div class="w-full h-full flex items-center justify-center bg-blue-500 text-white text-3xl sm:text-4xl font-bold"
+                   data-profile_photo_target="preview">
+                <%= @profile.try(:first_name).present? ? @profile.first_name.first.upcase : '?' %>
               </div>
             <% end %>
+            
             <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-8 h-8 text-white pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
               </svg>
             </div>
+            
             <%= f.file_field :profile_photo, 
                 class: "hidden", 
                 accept: "image/*",
@@ -68,7 +73,44 @@
 
       <!-- Profile Info -->
       <div class="mt-4 sm:ml-8 sm:mt-16 text-center sm:text-left w-full">
-      <h1 class="text-2xl sm:text-3xl font-bold"><%= @profile.try(:first_name).presence || 'Your name' %></h1>
+        <div data-controller="inline-edit" class="mb-2">
+          <div class="group relative">
+            <!-- Display Name -->
+            <h1 class="text-2xl sm:text-3xl font-bold group-hover:bg-gray-50 rounded-lg p-2 cursor-pointer"
+                data-inline-edit-target="display"
+                data-action="click->inline-edit#showInput">
+              <%= "#{@profile.try(:first_name)} #{@profile.try(:last_name)}".strip.presence || 'Click to add your name' %>
+            </h1>
+
+            <!-- Edit Form -->
+            <div class="hidden" data-inline-edit-target="form">
+              <%= form_with(model: @profile, data: { action: "submit->inline-edit#save" }) do |f| %>
+                <div class="flex gap-2">
+                  <%= f.text_field :full_name,
+                      value: "#{@profile.try(:first_name)} #{@profile.try(:last_name)}".strip,
+                      class: "text-2xl sm:text-3xl font-bold p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                      placeholder: "Enter your full name",
+                      data: { 
+                        inline_edit_target: "input",
+                        action: "keydown->inline-edit#handleKeydown blur->inline-edit#handleBlur"
+                      } %>
+                  
+                  <div class="flex items-center gap-2">
+                    <button type="submit" 
+                            class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+                      Save
+                    </button>
+                    <button type="button" 
+                            class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm"
+                            data-action="click->inline-edit#cancel">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
         <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-6 mt-2 text-gray-600">
           <!-- Location -->
           <div class="flex items-center">
@@ -79,7 +121,7 @@
             <span><%= @profile.try(:location).presence || 'Set your location' %></span>
           </div>
 
-          <!-- Instagram -->
+          <!-- Username -->
           <div class="flex items-center">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -191,15 +233,47 @@
 
         <!-- Bio Card -->
         <div class="bg-white shadow rounded-lg p-6">
-          <div class="flex items-center mb-4">
-            <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-            </svg>
-            <h3 class="font-bold text-lg">About Me</h3>
+          <div class="mb-6" data-controller="about-edit">
+            <div class="flex items-center mb-3">
+              <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <h3 class="font-bold text-lg">About Me</h3>
+            </div>
+
+            <div class="relative group">
+              <div class="text-gray-600 group-hover:bg-gray-50 rounded-lg p-3 cursor-pointer"
+                   data-about-edit-target="display"
+                   data-action="click->about-edit#showInput">
+                <%= @profile.bio.presence || "Click to add your bio..." %>
+              </div>
+
+              <div class="hidden" data-about-edit-target="form">
+                <%= form_with(model: @profile, data: { action: "submit->about-edit#save" }) do |f| %>
+                  <%= f.text_area :bio, 
+                      class: "w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                      rows: 4,
+                      placeholder: "Tell us about yourself...",
+                      data: { 
+                        about_edit_target: "input",
+                        action: "keydown->about-edit#handleKeydown blur->about-edit#handleBlur"
+                      } %>
+                  
+                  <div class="flex gap-2 mt-2">
+                    <button type="submit" 
+                            class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+                      Save
+                    </button>
+                    <button type="button" 
+                            class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm"
+                            data-action="click->about-edit#cancel">
+                      Cancel
+                    </button>
+                  </div>
+                <% end %>
+              </div>
+            </div>
           </div>
-          <p class="text-gray-700">
-             <span><%= @profile.user.try(:biol).presence || 'Tell about yourself' %></span>
-          </p>
         </div>
 
         <!-- Social Links Card -->
