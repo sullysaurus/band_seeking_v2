@@ -1,8 +1,15 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="image-upload"
+// Connects to data-controller="banner-upload"
 export default class extends Controller {
   static targets = ["input", "preview"]
+
+  connect() {
+    const container = this.previewTarget.closest('.group')
+    container.addEventListener('click', () => {
+      this.inputTarget.click()
+    })
+  }
 
   previewImage(event) {
     const file = event.target.files[0]
