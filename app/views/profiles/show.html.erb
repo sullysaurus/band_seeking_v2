@@ -276,19 +276,19 @@
           </div>
         </div>
 
-        <!-- Social Links Card -->
+        <!-- Social urls Card -->
         <div class="bg-white shadow rounded-lg p-6">
           <div class="flex items-center mb-4">
             <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
             </svg>
-            <h3 class="font-bold text-lg">Social Links</h3>
+            <h3 class="font-bold text-lg">Social urls</h3>
           </div>
           
           <div class="space-y-4">
             <!-- Instagram -->
             <% if @profile.try(:instagram_handle).present? %>
-              <a href="https://www.instagram.com/<%= @profile.instagram_url.gsub('@', '') %>" class="flex items-center text-gray-700 hover:text-pink-600 transition-colors" target="_blank">
+              <a href="https://www.instagram.com/<%= @profile.instagram_handle.gsub('@', '') %>" class="flex items-center text-gray-700 hover:text-pink-600 transition-colors" target="_blank">
                 <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                 </svg>
@@ -322,7 +322,7 @@
 
             <!-- Apple Music -->
             <% if @profile.try(:apple_music_url).present? %>
-              <a href="<%= @profile.applemusic_url %>" class="flex items-center text-gray-700 hover:text-pink-500 transition-colors" target="_blank">
+              <a href="<%= @profile.apple_music_url %>" class="flex items-center text-gray-700 hover:text-pink-500 transition-colors" target="_blank">
                 <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M23.997 6.124c0-.738-.065-1.47-.24-2.19-.317-1.31-1.062-2.31-2.18-3.043C20.642.517 19.63.26 18.464.13 17.368.004 16.25.002 15.134.002c-2.413 0-4.827.003-7.24.008C5.877.017 3.864.032 1.85.061.916.082.44.47.26 1.387.172 1.833.145 2.295.13 2.75c-.027.8-.036 1.602-.036 2.402V18.863c.003.766.008 1.533.04 2.3.025.6.073 1.198.15 1.794.144 1.136.638 2.003 1.61 2.6.843.515 1.776.687 2.75.75.95.053 1.898.084 2.847.118 1.86.067 3.72.066 5.58.105 1.58.033 3.155.114 4.734.13.47.004.94-.024 1.397-.135 1.255-.31 2.052-1.092 2.46-2.293.192-.567.267-1.158.32-1.75.064-.73.084-1.464.086-2.197.002-.635 0-1.27 0-1.902V6.124zm-12.423 5.257V3.828l8.85 3.778-8.85 3.775z"/>
                 </svg>
@@ -386,9 +386,103 @@
 
         <!-- YouTube Card -->
         <div class="bg-white shadow rounded-lg p-6">
-          <h3 class="font-bold text-lg mb-4">YouTube</h3>
-          <div class="bg-gray-100 h-48 sm:h-64 rounded flex items-center justify-center">
-            <span class="text-gray-500">YouTube embed placeholder</span>
+          <div class="mb-6" data-controller="youtube-url">
+            <div class="flex items-center mb-3">
+              <svg class="w-5 h-5 text-gray-500 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+              </svg>
+              <h3 class="font-bold text-lg">YouTube</h3>
+            </div>
+
+            <% if @profile.youtube_url.present? %>
+              <div class="relative aspect-video rounded-lg overflow-hidden bg-gray-100"
+                   data-youtube-url-target="videoContainer">
+                <iframe 
+                  src="<%= @profile.youtube_url.gsub('watch?v=', 'embed/') %>"
+                  class="absolute inset-0 w-full h-full"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen>
+                </iframe>
+                <div class="absolute top-2 right-2 flex gap-2">
+                  <button class="p-1 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+                          data-action="youtube-url#showEditForm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                    </svg>
+                  </button>
+                  <button class="p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                          data-action="youtube-url#removeVideo">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Edit Form -->
+              <div class="hidden mt-2" data-youtube-url-target="editForm">
+                <%= form_with(model: @profile, data: { action: "submit->youtube-url#save" }) do |f| %>
+                  <div class="flex gap-2">
+                    <%= f.text_field :youtube_url,
+                        value: @profile.youtube_url,
+                        class: "flex-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                        placeholder: "Paste YouTube URL here",
+                        data: { 
+                          youtube_url_target: "editInput",
+                          action: "keydown->youtube-url#handleKeydown"
+                        } %>
+                    
+                    <button type="submit" 
+                            class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+                      Update
+                    </button>
+                    <button type="button" 
+                            class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm"
+                            data-action="click->youtube-url#cancelEdit">
+                      Cancel
+                    </button>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="aspect-video rounded-lg bg-gray-100 flex items-center justify-center cursor-pointer group"
+                   data-youtube-url-target="addButton"
+                   data-action="click->youtube-url#showForm">
+                <div class="text-gray-400 group-hover:text-gray-600 transition-colors">
+                  <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                  </svg>
+                  <span class="block text-sm mt-2">Add YouTube Video</span>
+                </div>
+              </div>
+
+              <div class="hidden" data-youtube-url-target="form">
+                <%= form_with(model: @profile, data: { action: "submit->youtube-url#save" }) do |f| %>
+                  <div class="mt-2">
+                    <%= f.text_field :youtube_url,
+                        class: "w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                        placeholder: "Paste YouTube URL here",
+                        data: { 
+                          youtube_url_target: "input",
+                          action: "keydown->youtube-url#handleKeydown"
+                        } %>
+                    
+                    <div class="flex gap-2 mt-2">
+                      <button type="submit" 
+                              class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+                        Add Video
+                      </button>
+                      <button type="button" 
+                              class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm"
+                              data-action="click->youtube-url#cancel">
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>

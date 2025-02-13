@@ -49,8 +49,8 @@ class ProfilesController < ApplicationController
     params.require(:profile).permit(:bio, :full_name, :city, :state, :experience_level, 
                                     :availability, { looking_for: [] }, 
                                     { instruments_played: [] },
-                                    :spotify_link, :youtube_link, 
-                                    :instagram_link, :website_url, 
+                                    :spotify_url, :youtube_url, 
+                                    :instagram_url, :website_url, 
                                     :profile_photo, :banner_image)
   end
 end
