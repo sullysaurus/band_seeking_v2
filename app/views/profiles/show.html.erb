@@ -1,3 +1,5 @@
+<% content_for :full_width, true %>
+
 <div class="min-h-screen flex flex-col items-center bg-gray-100 px-4 sm:px-6 py-8 sm:py-12">
   <div class="bg-white shadow-lg rounded-lg w-full max-w-6xl p-4 sm:p-8" data-controller="profile">
 
@@ -30,44 +32,32 @@
 
       <!-- Profile Info -->
       <div class="mt-4 sm:ml-8 sm:mt-16 text-center sm:text-left w-full">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 class="text-2xl sm:text-3xl font-bold">John Smith</h1>
-            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-6 mt-2 text-gray-600">
-              <!-- Location -->
-              <div class="flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                </svg>
-                <span>London, UK</span>
-              </div>
-
-              <!-- Instagram -->
-              <div class="flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                </svg>
-                <a href="#" class="hover:text-blue-600">@username</a>
-              </div>
-
-              <!-- Website -->
-              <div class="flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
-                </svg>
-                <a href="#" class="hover:text-blue-600">website.com</a>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Contact Button -->
-          <button class="mt-4 sm:mt-0 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        <h1 class="text-2xl sm:text-3xl font-bold">John Smith</h1>
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-6 mt-2 text-gray-600">
+          <!-- Location -->
+          <div class="flex items-center">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
             </svg>
-            Contact
-          </button>
+            <span>London, UK</span>
+          </div>
+
+          <!-- Instagram -->
+          <div class="flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            <a href="#" class="hover:text-blue-600">@username</a>
+          </div>
+
+          <!-- Website -->
+          <div class="flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+            </svg>
+            <a href="#" class="hover:text-blue-600">website.com</a>
+          </div>
         </div>
       </div>
     </div>
@@ -134,6 +124,58 @@
           <p class="text-gray-700">
             Hey there! I'm a passionate musician with over 5 years of experience playing guitar and piano. I love creating music that blends rock and alternative styles. Currently looking to join or form a band to create original music and perform live.
           </p>
+        </div>
+
+        <!-- Social Links Card -->
+        <div class="bg-white shadow rounded-lg p-6">
+          <div class="flex items-center mb-4">
+            <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+            </svg>
+            <h3 class="font-bold text-lg">Social Links</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <!-- Instagram -->
+            <a href="#" class="flex items-center text-gray-700 hover:text-pink-600 transition-colors">
+              <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+              Instagram
+            </a>
+
+            <!-- TikTok -->
+            <a href="#" class="flex items-center text-gray-700 hover:text-black transition-colors">
+              <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 015.2-2.39V9.39a7.67 7.67 0 003.45-.67 7.11 7.11 0 002.66-1.78 7.29 7.29 0 001.11-1.32v.02h-.01a8.02 8.02 0 01.01 1.05zM12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0z"/>
+              </svg>
+              TikTok
+            </a>
+
+            <!-- Apple Music -->
+            <a href="#" class="flex items-center text-gray-700 hover:text-pink-500 transition-colors">
+              <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23.997 6.124c0-.738-.065-1.47-.24-2.19-.317-1.31-1.062-2.31-2.18-3.043C20.642.517 19.63.26 18.464.13 17.368.004 16.25.002 15.134.002c-2.413 0-4.827.003-7.24.008C5.877.017 3.864.032 1.85.061.916.082.44.47.26 1.387.172 1.833.145 2.295.13 2.75c-.027.8-.036 1.602-.036 2.402V18.863c.003.766.008 1.533.04 2.3.025.6.073 1.198.15 1.794.144 1.136.638 2.003 1.61 2.6.843.515 1.776.687 2.75.75.95.053 1.898.084 2.847.118 1.86.067 3.72.066 5.58.105 1.58.033 3.155.114 4.734.13.47.004.94-.024 1.397-.135 1.255-.31 2.052-1.092 2.46-2.293.192-.567.267-1.158.32-1.75.064-.73.084-1.464.086-2.197.002-.635 0-1.27 0-1.902V6.124zm-12.423 5.257V3.828l8.85 3.778-8.85 3.775z"/>
+              </svg>
+              Apple Music
+            </a>
+
+            <!-- Bandcamp -->
+            <a href="#" class="flex items-center text-gray-700 hover:text-blue-600 transition-colors">
+              <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M0 18.75l20.708-11.264-7.416 11.264z"/>
+              </svg>
+              Bandcamp
+            </a>
+
+            <!-- SoundCloud -->
+            <a href="#" class="flex items-center text-gray-700 hover:text-orange-500 transition-colors">
+              <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M1.175 12.225c-.051 0-.094.046-.101.1l-.233 2.154.233 2.105c.007.058.05.098.101.098.05 0 .09-.04.099-.098l.255-2.105-.27-2.154c-.009-.06-.045-.1-.085-.1m-.899.828c-.06 0-.091.037-.104.094L0 14.479l.165 1.308c.013.057.045.093.104.093.057 0 .091-.039.104-.093l.196-1.308-.196-1.332c-.013-.057-.047-.094-.104-.104M2.669 11.822c-.041-.052-.091-.078-.146-.078-.064 0-.113.026-.154.078-.039.049-.059.098-.059.146v3.364c0 .046.02.096.059.145.041.051.09.076.154.076.056 0 .105-.025.146-.076.039-.049.059-.099.059-.145v-3.364c0-.049-.02-.097-.059-.146m6.333-.087c-.263 0-.372.107-.372.321V16.7c0 .214.109.322.372.322.214 0 .323-.108.323-.322v-4.644c0-.214-.109-.321-.323-.321m-2.47.244c-.051 0-.094.039-.104.098l-.599 2.983.599 3.012c.01.053.053.087.104.087.05 0 .091-.034.101-.087l.681-3.012-.681-2.983c-.01-.059-.051-.098-.101-.098m-1.711.132c-.051 0-.09.039-.1.094L4 14.479l.721 3.013c.01.054.049.088.1.088.051 0 .09-.034.1-.088l.841-3.013-.841-2.368c-.01-.055-.049-.094-.1-.094m-.72.131c-.049 0-.091.037-.104.093l-.661 2.238.661 2.882c.013.057.055.093.104.093.051 0 .092-.037.104-.093l.761-2.882-.761-2.238c-.012-.056-.053-.093-.104-.093m3.772.107c-.124 0-.219.039-.284.117-.064.077-.097.188-.097.331V16.7c0 .143.033.254.097.33.065.078.16.117.284.117.122 0 .217-.039.282-.117.065-.076.097-.187.097-.33v-4.644c0-.143-.032-.254-.097-.331-.065-.078-.159-.117-.282-.117m-2.841.93c-.051 0-.092.039-.104.094l-.479 1.738.479 2.023c.012.054.053.093.104.093s.091-.039.104-.093l.55-2.023-.55-1.738c-.013-.055-.053-.094-.104-.094m8.486-.012c-.051 0-.092.037-.104.093l-.318 1.75.318 2.35c.012.054.053.093.104.093.052 0 .092-.039.104-.093l.375-2.35-.375-1.75c-.012-.056-.052-.093-.104-.093m-6.96.187c-.051 0-.092.037-.105.093l-.159.91.159 1.023c.013.056.054.093.105.093.051 0 .091-.037.104-.093l.24-1.023-.24-.91c-.013-.056-.053-.093-.104-.093M17.312 13c-.053 0-.092.037-.103.093l-.233 1.003.233 1.231c.011.053.05.087.103.087.051 0 .092-.034.104-.087l.284-1.231-.284-1.003c-.012-.056-.053-.093-.104-.093m-3.839.045c-.051 0-.09.039-.102.093l-.203.872.203 1.22c.012.054.051.093.102.093.052 0 .092-.039.104-.093l.299-1.22-.299-.872c-.012-.054-.052-.093-.104-.093m-3.214.052c-.051 0-.093.037-.104.093l-.436 1.611.436 1.984c.011.054.053.093.104.093.051 0 .093-.039.104-.093l.508-1.984-.508-1.611c-.011-.056-.053-.093-.104-.093m11.335-.729c-.712 0-1.235.272-1.235 1.44v3.646c0 1.168.523 1.44 1.235 1.44.712 0 1.236-.272 1.236-1.44v-3.646c0-1.168-.524-1.44-1.236-1.44"/>
+              </svg>
+              SoundCloud
+            </a>
+          </div>
         </div>
       </div>
 

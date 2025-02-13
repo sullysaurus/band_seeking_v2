@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_12_165532) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_13_140045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -72,15 +72,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_12_165532) do
     t.text "instruments_played", default: [], array: true
     t.string "experience_level"
     t.string "availability"
-    t.string "looking_for"
-    t.string "spotify_link"
-    t.string "youtube_link"
-    t.string "instagram_link"
+    t.text "looking_for", default: [], array: true
+    t.string "spotify_url"
+    t.string "youtube_url"
+    t.string "instagram_url"
     t.string "website_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "profile_photo"
     t.string "banner_image"
+    t.string "soundcloud_url"
+    t.string "tiktok_url"
+    t.string "applemusic_url"
+    t.string "bandcamp_url"
+    t.boolean "active"
+    t.string "first_name"
+    t.string "last_name"
     t.index ["instruments_played"], name: "index_profiles_on_instruments_played", using: :gin
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
