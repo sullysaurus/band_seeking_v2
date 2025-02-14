@@ -1,17 +1,26 @@
 class Profile < ApplicationRecord
-  attr_accessor :full_name
-
   belongs_to :user
   has_one_attached :profile_photo
   has_one_attached :banner_image
 
-  before_save :split_full_name, if: :full_name
+  # Geocode by zip code
+  geocoded_by :zip_code
+  after_validation :geocode
 
-  private
+  validates :zip_code, presence: true, format: { 
+    with: /\A\d{5}(-\d{4})?\z/, 
+    message: "should be a valid ZIP code"
+  }
 
-  def split_full_name
-    names = full_name.strip.split(/\s+/, 2)
-    self.first_name = names[0]
-    self.last_name = names[1]
+  # Custom getter and setter for full_name (if needed)
+  def full_name
+    [first_name, last_name].compact.join(" ")
+  end
+
+  def full_name=(name)
+    return if name.blank?
+    names = name.strip.split(/\s+/, 2)
+    self.first_name = names.first
+    self.last_name  = names.last
   end
 end

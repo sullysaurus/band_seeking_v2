@@ -20,7 +20,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   
     def after_sign_up_path_for(resource)
-      edit_profile_path(resource.profile) # Redirect to edit profile after sign-up
+      profile_path(resource.profile) # Redirect to the show page of the user's profile
     end
   end
   

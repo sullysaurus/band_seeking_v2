@@ -8,3 +8,20 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+.auto-location-btn {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.auto-location-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.zip-input {
+  width: 150px;
+}
