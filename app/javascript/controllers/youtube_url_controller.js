@@ -27,7 +27,6 @@ export default class extends Controller {
 
   hideForm() {
     this.formTarget.classList.add("hidden")
-    this.addButtonTarget.classList.remove("hidden")
     this.inputTarget.value = ""
   }
 
@@ -92,7 +91,7 @@ export default class extends Controller {
           iframe.src = embedUrl
           this.hideEditForm()
         } else {
-          // Create new video container
+          // Create new video container without unhiding the add button:
           this.addButtonTarget.classList.add('hidden')
           const container = document.createElement('div')
           container.className = 'relative aspect-video rounded-lg overflow-hidden bg-gray-100'
@@ -121,7 +120,9 @@ export default class extends Controller {
             </div>
           `
           this.addButtonTarget.insertAdjacentElement('beforebegin', container)
-          this.hideForm()
+          // Manually hide the form and clear the input without showing the add button again
+          this.formTarget.classList.add("hidden")
+          this.inputTarget.value = ""
         }
       }
     })

@@ -27,7 +27,6 @@ export default class extends Controller {
 
   hideForm() {
     this.formTarget.classList.add("hidden")
-    this.addButtonTarget.classList.remove("hidden")
     this.inputTarget.value = ""
   }
 
@@ -121,7 +120,8 @@ export default class extends Controller {
             </div>
           `
           this.addButtonTarget.insertAdjacentElement('beforebegin', container)
-          this.hideForm()
+          this.formTarget.classList.add("hidden")
+          this.inputTarget.value = ""
         }
       }
     })
