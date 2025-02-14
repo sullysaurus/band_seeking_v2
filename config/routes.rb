@@ -10,6 +10,16 @@ Rails.application.routes.draw do
 
   resources :profiles, only: [:show, :edit, :update]
 
+  resources :profiles do
+    member do
+      get :edit_instagram
+      get :edit_tiktok
+      get :edit_applemusic
+      get :edit_bandcamp
+      get :edit_soundcloud
+      patch :update_zip
+    end
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

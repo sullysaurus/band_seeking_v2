@@ -1,0 +1,22 @@
+<turbo-frame id="zip_code_display">
+  <div data-controller="inline-edit">
+    <div class="group relative">
+      <!-- Display element -->
+      <span class="cursor-pointer" data-inline-edit-target="display" data-action="click->inline-edit#showInput">
+        <%= profile.zip_code.presence || 'Set your location' %>
+      </span>
+      <!-- Hidden inline edit form -->
+      <div class="hidden" data-inline-edit-target="form">
+        <%= form_with(model: profile, url: update_zip_profile_path(profile), method: :patch, local: false, html: { class: "inline-block" }) do |f| %>
+          <%= f.text_field :zip_code, value: profile.zip_code, placeholder: "Enter Zip Code", class: "border border-gray-300 px-2 py-1 rounded" %>
+          <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded ml-2">
+            Save
+          </button>
+          <button type="button" class="bg-gray-300 text-gray-800 px-2 py-1 rounded ml-2" data-action="click->inline-edit#cancel">
+            Cancel
+          </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</turbo-frame> 

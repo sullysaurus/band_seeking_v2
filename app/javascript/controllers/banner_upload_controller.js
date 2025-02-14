@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
+// Connects to data-controller="banner-upload"
 export default class extends Controller {
   static targets = ["input"]
 
@@ -11,24 +12,17 @@ export default class extends Controller {
   updateBanner(event) {
     const file = event.target.files[0]
     if (file) {
-      const form = event.target.closest('form')
-      const formData = new FormData(form)
-      
-      fetch(form.action, {
-        method: 'PATCH',
-        body: formData,
-        headers: {
-          'Accept': 'application/json',
-          'X-CSRF-Token': document.querySelector("[name='csrf-token']").content
-        },
-        credentials: 'same-origin'
-      })
-      .then(response => {
-        if (response.ok) {
-          window.location.reload()
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        // Update the preview image if available
+        const previewImage = this.element.querySelector("img")
+        if (previewImage) {
+          previewImage.src = e.target.result
         }
-      })
-      .catch(error => console.error('Error:', error))
+      }
+      reader.readAsDataURL(file)
     }
+    // Submit the form via Turbo so only the banner frame is updated
+    this.element.requestSubmit()
   }
 }
