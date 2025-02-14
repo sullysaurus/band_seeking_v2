@@ -1,0 +1,8 @@
+<!-- app/views/profiles/_sidebar.html.erb -->
+
+<div class="space-y-6">
+  <!-- Render each partial, passing in the 'profile' local variable -->
+  <%= render 'profiles/details_card', profile: profile %>
+  <%= render 'profiles/bio_card',     profile: profile %>
+  <%= render 'profiles/social_links', profile: profile %>
+</div>

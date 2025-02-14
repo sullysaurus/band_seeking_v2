@@ -1,0 +1,34 @@
+<div class="bg-white">
+  <!-- Banner Image -->
+  <div class="relative group" data-controller="banner-upload">
+    <% if profile.banner_image.attached? %>
+      <%= image_tag profile.banner_image, 
+          class: "w-full h-[200px] object-cover rounded-lg shadow-md" %>
+    <% else %>
+      <div class="w-full h-[200px] bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-md"></div>
+    <% end %>
+
+    <%= form_with(model: profile) do |f| %>
+      <%= f.file_field :banner_image, 
+          id: "banner_image_upload",
+          direct_upload: true,
+          class: "hidden",
+          accept: "image/*",
+          data: { 
+            banner_upload_target: "input",
+            action: "change->banner-upload#updateBanner"
+          } %>
+      
+      <div class="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+           onclick="document.getElementById('banner_image_upload').click()">
+        <div class="text-white flex flex-col items-center">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <span class="mt-2 text-sm font-medium">Update Banner</span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -24,19 +24,20 @@ class ProfilesController < ApplicationController
   def update
     respond_to do |format|
       if @profile.update(profile_params)
-        format.html { redirect_to @profile }
+        format.html { redirect_to @profile, notice: 'Profile successfully updated.' }
         format.json { 
           render json: { 
             status: :ok, 
             bio: @profile.bio,
             display_name: "#{@profile.first_name} #{@profile.last_name}".strip,
             youtube_url: @profile.youtube_url,
-            spotify_url: @profile.spotify_url
+            spotify_url: @profile.spotify_url,
+            zip_code: @profile.zip_code
           } 
         }
       else
         format.html { render :edit }
-        format.json { render json: { errors: @profile.errors }, status: :unprocessable_entity }
+        format.json { render json: { errors: @profile.errors.full_messages }, status: :unprocessable_entity }
       end
     end
   end

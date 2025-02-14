@@ -1,0 +1,87 @@
+<div class="relative flex flex-col sm:flex-row items-center sm:items-start -mt-16">
+  <!-- Profile Image -->
+  <div class="mx-auto sm:mx-0 sm:ml-8">
+    <%= form_with(model: profile, data: { controller: "profile-photo" }) do |f| %>
+      <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg relative group cursor-pointer">
+        <% if profile.profile_photo.attached? %>
+          <%= image_tag profile.profile_photo, 
+              class: "w-full h-full object-cover", 
+              data: { profile_photo_target: "preview" } %>
+        <% else %>
+          <div class="w-full h-full flex items-center justify-center bg-blue-500 text-white text-3xl sm:text-4xl font-bold"
+               data-profile_photo_target="preview">
+            <%= profile.try(:first_name).present? ? profile.first_name.first.upcase : '?' %>
+          </div>
+        <% end %>
+        
+        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <svg class="w-8 h-8 text-white pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </div>
+        
+        <%= f.file_field :profile_photo, 
+            class: "hidden", 
+            accept: "image/*",
+            data: { 
+              profile_photo_target: "input",
+              action: "change->profile-photo#previewImage"
+            } %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Profile Info -->
+  <div class="mt-4 sm:ml-8 sm:mt-16 text-center sm:text-left w-full">
+    <div data-controller="inline-edit" class="mb-2">
+      <div class="group relative">
+        <!-- Display Name -->
+        <h1 class="text-2xl sm:text-3xl font-bold group-hover:bg-gray-50 rounded-lg p-2 cursor-pointer"
+            data-inline-edit-target="display"
+            data-action="click->inline-edit#showInput">
+          <%= "#{profile.try(:first_name)} #{profile.try(:last_name)}".strip.presence || 'Click to add your name' %>
+        </h1>
+
+        <!-- Edit Form -->
+        <div class="hidden" data-inline-edit-target="form">
+          <%= form_with(model: profile, data: { action: "submit->inline-edit#save" }) do |f| %>
+            <div class="flex gap-2">
+              <%= f.text_field :full_name,
+                  value: "#{profile.try(:first_name)} #{profile.try(:last_name)}".strip,
+                  class: "text-2xl sm:text-3xl font-bold p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                  placeholder: "Enter your full name",
+                  data: { 
+                    inline_edit_target: "input",
+                    action: "keydown->inline-edit#handleKeydown blur->inline-edit#handleBlur"
+                  } %>
+              
+              <div class="flex items-center gap-2">
+                <button type="submit" 
+                        class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+                  Save
+                </button>
+                <button type="button" 
+                        class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm"
+                        data-action="click->inline-edit#cancel">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-6 mt-2 text-gray-600">
+      <!-- Location -->
+      <div class="flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        </svg>
+        <span><%= profile.try(:zip_code).presence || 'Set your location' %></span>
+      </div>
+    </div>
+  </div>
+</div>
