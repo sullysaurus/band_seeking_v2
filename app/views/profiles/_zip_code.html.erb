@@ -1,18 +1,27 @@
 <turbo-frame id="zip_code_display">
   <div data-controller="inline-edit">
     <div class="group relative">
-      <!-- Display element -->
+      <!-- Display element: shows "City, State ZIP" if city and state exist -->
       <span class="cursor-pointer" data-inline-edit-target="display" data-action="click->inline-edit#showInput">
-        <%= profile.zip_code.presence || 'Set your location' %>
+        <% if profile.zip_code.present? %>
+          <% if profile.city.present? && profile.state.present? %>
+            <%= "#{profile.city}, #{profile.state} #{profile.zip_code}" %>
+          <% else %>
+            <%= profile.zip_code %>
+          <% end %>
+        <% else %>
+          Set your location
+        <% end %>
       </span>
-      <!-- Hidden inline edit form -->
+
+      <!-- Hidden inline edit form for just the zip code -->
       <div class="hidden" data-inline-edit-target="form">
         <%= form_with(model: profile, url: update_zip_profile_path(profile), method: :patch, local: false, html: { class: "inline-block" }) do |f| %>
-          <%= f.text_field :zip_code, value: profile.zip_code, placeholder: "Enter Zip Code", class: "border border-gray-300 px-2 py-1 rounded" %>
-          <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded ml-2">
+          <%= f.text_field :zip_code, value: profile.zip_code, placeholder: "e.g. 90210", class: "border border-gray-300 px-2 py-1 rounded", data: { "inline-edit-target": "input" } %>
+          <button type="submit" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
             Save
           </button>
-          <button type="button" class="bg-gray-300 text-gray-800 px-2 py-1 rounded ml-2" data-action="click->inline-edit#cancel">
+          <button type="button" class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm" data-action="inline-edit#cancel">
             Cancel
           </button>
         <% end %>

@@ -23,4 +23,25 @@ class Profile < ApplicationRecord
     self.first_name = names.first
     self.last_name  = names.last
   end
+
+  require 'httparty'
+  
+  # Automatically populate city and state when the zip_code changes
+  before_save :populate_city_and_state, if: :will_save_change_to_zip_code?
+  
+  private
+  
+  def populate_city_and_state
+    return if zip_code.blank?
+    response = HTTParty.get("http://api.zippopotam.us/us/#{zip_code}")
+    if response.code == 200
+      data = response.parsed_response
+      if data["places"].present? && data["places"].first.present?
+        self.city  = data["places"].first["place name"]
+        self.state = data["places"].first["state abbreviation"]
+      end
+    end
+  rescue StandardError => e
+    Rails.logger.error "Error fetching location for zip code #{zip_code}: #{e.message}"
+  end
 end
