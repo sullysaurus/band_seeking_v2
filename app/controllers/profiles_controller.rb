@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_profile, only: [:show, :edit, :update, :edit_instagram, :edit_tiktok, :edit_apple_music, :edit_bandcamp, :edit_soundcloud]
+  before_action :set_profile, only: [:show, :edit, :update, :edit_instagram, :edit_tiktok, :edit_apple_music, :edit_bandcamp, :edit_soundcloud, :update_zip]
 
   def new
     @profile = Profile.new
@@ -74,20 +74,15 @@ class ProfilesController < ApplicationController
   end
 
   def update_zip
-    @profile = Profile.find(params[:id])
     if @profile.update(zip_code: params[:profile][:zip_code])
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("zip_code_display", partial: "profiles/zip_code", locals: { profile: @profile })
+          render turbo_stream: turbo_stream.replace(
+            "zip_code",
+            partial: "profiles/zip_code",
+            locals: { profile: @profile }
+          )
         end
-        format.html { redirect_to @profile, notice: "Zip code updated." }
-      end
-    else
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("zip_code_display", partial: "profiles/zip_code", locals: { profile: @profile }), status: :unprocessable_entity
-        end
-        format.html { redirect_to @profile, alert: "Error updating zip code." }
       end
     end
   end
@@ -95,7 +90,7 @@ class ProfilesController < ApplicationController
   private
 
   def set_profile
-    @profile = current_user.profile
+    @profile = Profile.joins(:user).find_by!(users: { username: params[:id] })
   end
 
   def profile_params

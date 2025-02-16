@@ -44,9 +44,6 @@
             <%= "#{profile.try(:first_name)} #{profile.try(:last_name)}".strip.presence || 'Click to add your name' %>
           </h1>
           <!-- Desktop: Contact button on the right -->
-          <div class="hidden sm:block">
-            <%= link_to "Contact", "#", class: "bg-blue-500 hover:bg-blue-600 text-white text-xl font-bold px-10 py-2 rounded-lg shadow-md" %>
-          </div>
         </div>
 
         <!-- Edit Form -->

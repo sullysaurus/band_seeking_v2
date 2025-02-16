@@ -34,6 +34,11 @@ class Profile < ApplicationRecord
     youtube_url.gsub('watch?v=', 'embed/')
   end
 
+  # Use the user's username for URLs
+  def to_param
+    user.username
+  end
+
   private
   
   def populate_city_and_state
