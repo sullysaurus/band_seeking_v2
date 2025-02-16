@@ -29,6 +29,11 @@ class Profile < ApplicationRecord
   # Automatically populate city and state when the zip_code changes
   before_save :populate_city_and_state, if: :will_save_change_to_zip_code?
   
+  def youtube_embed_url
+    return nil unless youtube_url.present?
+    youtube_url.gsub('watch?v=', 'embed/')
+  end
+
   private
   
   def populate_city_and_state

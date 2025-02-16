@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["addButton", "form", "input", "videoContainer", "editForm", "editInput"]
+  static targets = ["form", "input", "addButton", "playerContainer", "editForm", "editInput"]
 
   showForm(event) {
     this.addButtonTarget.classList.add("hidden")
@@ -11,121 +11,66 @@ export default class extends Controller {
 
   showEditForm(event) {
     event.preventDefault()
+    this.playerContainerTarget.classList.add("hidden")
     this.editFormTarget.classList.remove("hidden")
     this.editInputTarget.focus()
   }
 
   cancel(event) {
     event.preventDefault()
-    this.hideForm()
+    this.formTarget.classList.add("hidden")
+    this.addButtonTarget.classList.remove("hidden")
+    this.inputTarget.value = ""
   }
 
   cancelEdit(event) {
     event.preventDefault()
-    this.hideEditForm()
-  }
-
-  hideForm() {
-    this.formTarget.classList.add("hidden")
-    this.inputTarget.value = ""
-  }
-
-  hideEditForm() {
     this.editFormTarget.classList.add("hidden")
+    this.playerContainerTarget.classList.remove("hidden")
+    this.editInputTarget.value = this.editInputTarget.defaultValue
   }
 
   handleKeydown(event) {
     if (event.key === "Escape") {
-      if (this.editFormTarget?.classList.contains("hidden")) {
-        this.hideForm()
+      if (this.hasEditFormTarget && !this.editFormTarget.classList.contains("hidden")) {
+        this.cancelEdit(event)
       } else {
-        this.hideEditForm()
+        this.cancel(event)
       }
-    }
-  }
-
-  removeVideo(event) {
-    event.preventDefault()
-    
-    if (confirm("Are you sure you want to remove this video?")) {
-      const formData = new FormData()
-      formData.append('profile[youtube_url]', '')
-
-      fetch(this.element.querySelector('form').action, {
-        method: 'PATCH',
-        body: formData,
-        headers: {
-          'Accept': 'application/json',
-          'X-CSRF-Token': document.querySelector("[name='csrf-token']").content
-        },
-        credentials: 'same-origin'
-      })
-      .then(response => {
-        if (response.ok) {
-          window.location.reload()
-        }
-      })
     }
   }
 
   save(event) {
-    event.preventDefault()
-    const formData = new FormData(event.target)
+    // Form submission is handled by Turbo
+  }
 
-    fetch(event.target.action, {
-      method: 'PATCH',
-      body: formData,
-      headers: {
-        'Accept': 'application/json',
-        'X-CSRF-Token': document.querySelector("[name='csrf-token']").content
-      },
-      credentials: 'same-origin'
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.youtube_url) {
-        const embedUrl = data.youtube_url.replace('watch?v=', 'embed/')
-        if (this.hasVideoContainerTarget) {
-          // Update existing iframe
-          const iframe = this.videoContainerTarget.querySelector('iframe')
-          iframe.src = embedUrl
-          this.hideEditForm()
-        } else {
-          // Create new video container without unhiding the add button:
-          this.addButtonTarget.classList.add('hidden')
-          const container = document.createElement('div')
-          container.className = 'relative aspect-video rounded-lg overflow-hidden bg-gray-100'
-          container.dataset.youtubeUrlTarget = 'videoContainer'
-          container.innerHTML = `
-            <iframe 
-              src="${embedUrl}"
-              class="absolute inset-0 w-full h-full"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-            </iframe>
-            <div class="absolute top-2 right-2 flex gap-2">
-              <button class="p-1 bg-blue-500 text-white rounded-full hover:bg-blue-600"
-                      data-action="youtube-url#showEditForm">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                </svg>
-              </button>
-              <button class="p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
-                      data-action="youtube-url#removeVideo">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-              </button>
-            </div>
-          `
-          this.addButtonTarget.insertAdjacentElement('beforebegin', container)
-          // Manually hide the form and clear the input without showing the add button again
-          this.formTarget.classList.add("hidden")
-          this.inputTarget.value = ""
-        }
-      }
-    })
-    .catch(error => console.error('Error:', error))
+  removePlayer(event) {
+    event.preventDefault()
+    const form = document.createElement("form")
+    form.method = "POST"
+    form.action = this.element.dataset.profilePath
+    form.setAttribute("data-turbo-frame", "youtube_section")
+
+    const methodInput = document.createElement("input")
+    methodInput.type = "hidden"
+    methodInput.name = "_method"
+    methodInput.value = "PATCH"
+
+    const youtubeUrlInput = document.createElement("input")
+    youtubeUrlInput.type = "hidden"
+    youtubeUrlInput.name = "profile[youtube_url]"
+    youtubeUrlInput.value = ""
+
+    const tokenInput = document.createElement("input")
+    tokenInput.type = "hidden"
+    tokenInput.name = "authenticity_token"
+    tokenInput.value = document.querySelector("meta[name='csrf-token']").content
+
+    form.appendChild(methodInput)
+    form.appendChild(youtubeUrlInput)
+    form.appendChild(tokenInput)
+    document.body.appendChild(form)
+    form.requestSubmit()
+    form.remove()
   }
 } 

@@ -26,8 +26,12 @@ export default class extends Controller {
       }
     }
     reader.readAsDataURL(file)
+  }
 
-    // Handle direct upload
-    this.element.requestSubmit()
+  initializeUpload(event) {
+    // Let direct upload complete before submitting the form
+    event.detail.controller.upload.then(() => {
+      this.element.requestSubmit()
+    })
   }
 }
