@@ -27,15 +27,27 @@ EXPERIENCE_LEVELS = [
   'Beginner', 'Intermediate', 'Advanced', 'Professional'
 ]
 
+# NC Cities and their zip codes
+NC_LOCATIONS = [
+  { city: 'Raleigh', state: 'NC', zip: '27617' },
+  { city: 'Cary', state: 'NC', zip: '27513' },
+  { city: 'Durham', state: 'NC', zip: '27701' },
+  { city: 'Chapel Hill', state: 'NC', zip: '27514' },
+  { city: 'Apex', state: 'NC', zip: '27502' },
+  { city: 'Wake Forest', state: 'NC', zip: '27587' },
+  { city: 'Holly Springs', state: 'NC', zip: '27540' },
+  { city: 'Morrisville', state: 'NC', zip: '27560' },
+  { city: 'Garner', state: 'NC', zip: '27529' },
+  { city: 'Knightdale', state: 'NC', zip: '27545' }
+]
+
 # Create users with profiles
 puts "Creating users and profiles..."
-
-# Valid NC zip codes
-nc_zip_codes = ['27617', '27560', '27513', '27519', '27539', '27540', '27511', '27518', '27502', '27523']
 
 10.times do |i|
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
+  location = NC_LOCATIONS[i]
 
   user = User.new(
     email: Faker::Internet.unique.email,
@@ -51,7 +63,9 @@ nc_zip_codes = ['27617', '27560', '27513', '27519', '27539', '27540', '27511', '
   profile = user.build_profile(
     first_name: first_name,
     last_name: last_name,
-    zip_code: nc_zip_codes[i],
+    city: location[:city],
+    state: location[:state],
+    zip_code: location[:zip],
     bio: Faker::Lorem.paragraph(sentence_count: 3),
     instruments_played: played_instruments,
     looking_for: looking_for_options,
