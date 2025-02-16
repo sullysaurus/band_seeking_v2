@@ -34,12 +34,15 @@ class ProfilesController < ApplicationController
           elsif params[:profile][:zip_code].present?
             render turbo_stream: turbo_stream.replace("zip_code", partial: "profiles/zip_code", locals: { profile: @profile })
           else
-            render turbo_stream: turbo_stream.replace(@profile, partial: "profiles/profile", locals: { profile: @profile })
+            redirect_to @profile
           end
         end
         format.html { redirect_to @profile }
       else
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@profile, partial: "profiles/profile", locals: { profile: @profile }) }
+        format.turbo_stream { 
+          # Handle validation errors here
+          head :unprocessable_entity 
+        }
         format.html { render :edit }
       end
     end
