@@ -17,21 +17,37 @@ export default class extends Controller {
     const file = event.target.files[0]
     if (file) {
       const reader = new FileReader()
+      
       reader.onload = (e) => {
-        if (this.previewTarget.tagName === 'IMG') {
-          this.previewTarget.src = e.target.result
-        } else {
-          // Create new image element and replace the div
-          const img = document.createElement('img')
-          img.src = e.target.result
-          img.className = "w-full h-full object-cover"
-          img.dataset.profilePhotoTarget = "preview"
-          this.previewTarget.parentNode.replaceChild(img, this.previewTarget)
-          this.previewTarget = img
+        if (this.hasPreviewTarget) {
+          if (this.previewTarget.tagName === 'IMG') {
+            this.previewTarget.src = e.target.result
+          } else {
+            // Replace the div with an img element
+            const img = document.createElement('img')
+            img.src = e.target.result
+            img.className = 'w-full h-full object-cover'
+            img.dataset.profilePhotoTarget = 'preview'
+            this.previewTarget.replaceWith(img)
+          }
         }
       }
+
       reader.readAsDataURL(file)
+      
+      // Create FormData and submit
+      const form = this.element
+      const formData = new FormData(form)
+      
+      fetch(form.action, {
+        method: 'PATCH',
+        body: formData,
+        headers: {
+          'Accept': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        },
+        credentials: 'same-origin'
+      })
     }
-    this.element.requestSubmit()
   }
 } 
