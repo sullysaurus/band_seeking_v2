@@ -34,12 +34,13 @@ class ProfilesController < ApplicationController
           elsif params[:profile][:zip_code].present?
             render turbo_stream: turbo_stream.replace("zip_code", partial: "profiles/zip_code", locals: { profile: @profile })
           elsif params[:profile][:bio].present?
-            render turbo_stream: turbo_stream.replace("bio_frame", partial: "profiles/bio", locals: { profile: @profile })
+            render turbo_stream: turbo_stream.replace("bio_frame", 
+              render_to_string(partial: "profiles/bio", locals: { profile: @profile }))
           else
-            redirect_to @profile
+            redirect_to profile_path(@profile.user.username)
           end
         end
-        format.html { redirect_to @profile }
+        format.html { redirect_to profile_path(@profile.user.username) }
       else
         format.turbo_stream { 
           head :unprocessable_entity 
@@ -94,10 +95,19 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def index
+    @profiles = Profile.includes(:user).all
+  end
+
   private
 
   def set_profile
-    @profile = Profile.joins(:user).find_by!(users: { username: params[:id] })
+    user = if params[:id].to_i.to_s == params[:id]  # If the param is a number
+      User.find(params[:id])
+    else
+      User.find_by!(username: params[:id])
+    end
+    @profile = user.profile || user.create_profile
   end
 
   def profile_params

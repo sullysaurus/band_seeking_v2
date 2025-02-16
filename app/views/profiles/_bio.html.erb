@@ -8,6 +8,7 @@
 
     <div class="hidden" data-bio-edit-target="form">
       <%= form_with(model: profile, 
+            url: profile_path(profile.user.username),
             data: { 
               turbo_frame: "bio_frame",
               action: "submit->bio-edit#save" 
