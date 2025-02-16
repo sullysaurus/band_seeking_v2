@@ -3,35 +3,29 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["display", "form", "input"]
 
-  showInput(event) {
+  showForm(event) {
+    event.preventDefault()
     this.displayTarget.classList.add("hidden")
     this.formTarget.classList.remove("hidden")
-    this.inputTarget.value = this.displayTarget.textContent.trim()
     this.inputTarget.focus()
   }
 
   cancel(event) {
     event.preventDefault()
-    this.hideForm()
+    this.formTarget.classList.add("hidden")
+    this.displayTarget.classList.remove("hidden")
+    this.inputTarget.value = this.inputTarget.defaultValue
   }
 
   handleKeydown(event) {
     if (event.key === "Escape") {
-      this.hideForm()
+      this.cancel(event)
     }
   }
 
   handleBlur(event) {
-    // Don't hide if clicking within the form
-    const relatedTarget = event.relatedTarget
-    if (relatedTarget && this.formTarget.contains(relatedTarget)) {
-      return
-    }
-  }
-
-  hideForm() {
-    this.formTarget.classList.add("hidden")
-    this.displayTarget.classList.remove("hidden")
+    // Optional: auto-save on blur
+    // this.element.requestSubmit()
   }
 
   save(event) {

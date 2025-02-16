@@ -84,6 +84,12 @@ class ProfilesController < ApplicationController
           )
         end
       end
+    else
+      render turbo_stream: turbo_stream.replace(
+        "zip_code",
+        partial: "profiles/zip_code",
+        locals: { profile: @profile }
+      ), status: :unprocessable_entity
     end
   end
 

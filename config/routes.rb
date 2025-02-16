@@ -8,7 +8,11 @@ Rails.application.routes.draw do
     get '/users/sign_out' => 'devise/sessions#destroy'     
  end
 
-  resources :profiles, only: [:show, :edit, :update]
+  resources :profiles, path: '', only: [:show, :edit, :update] do
+    member do
+      patch 'update_zip'
+    end
+  end
 
   resources :profiles do
     member do
@@ -17,7 +21,6 @@ Rails.application.routes.draw do
       get :edit_applemusic
       get :edit_bandcamp
       get :edit_soundcloud
-      patch :update_zip
     end
   end
 
