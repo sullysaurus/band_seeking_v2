@@ -1,28 +1,33 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="banner-upload"
 export default class extends Controller {
-  static targets = ["input"]
+  static targets = ["input", "preview"]
 
   triggerFileInput(event) {
-    event.preventDefault()
     this.inputTarget.click()
   }
 
   updateBanner(event) {
     const file = event.target.files[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        // Update the preview image if available
-        const previewImage = this.element.querySelector("img")
-        if (previewImage) {
-          previewImage.src = e.target.result
-        }
+    if (!file) return
+
+    // Show preview immediately
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      if (this.previewTarget.tagName === 'IMG') {
+        this.previewTarget.src = e.target.result
+      } else {
+        // Create new image element if preview is currently a div
+        const img = document.createElement('img')
+        img.src = e.target.result
+        img.className = "w-full h-[200px] object-cover rounded-lg shadow-md"
+        img.dataset.bannerUploadTarget = "preview"
+        this.previewTarget.parentNode.replaceChild(img, this.previewTarget)
       }
-      reader.readAsDataURL(file)
     }
-    // Submit the form via Turbo so only the banner frame is updated
+    reader.readAsDataURL(file)
+
+    // Handle direct upload
     this.element.requestSubmit()
   }
 }
