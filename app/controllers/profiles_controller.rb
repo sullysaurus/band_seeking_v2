@@ -28,22 +28,19 @@ class ProfilesController < ApplicationController
   def update
     respond_to do |format|
       if @profile.update(profile_params)
-        format.html { redirect_to @profile, notice: 'Profile successfully updated.' }
-        format.json do
-          render json: { 
-            status: :ok, 
-            bio: @profile.bio,
-            display_name: "#{@profile.first_name} #{@profile.last_name}".strip,
-            youtube_url: @profile.youtube_url,
-            spotify_url: @profile.spotify_url,
-            zip_code: @profile.zip_code
-          }
+        format.turbo_stream do
+          if params[:profile][:full_name].present?
+            render turbo_stream: turbo_stream.replace("profile_name", partial: "profiles/name", locals: { profile: @profile })
+          elsif params[:profile][:zip_code].present?
+            render turbo_stream: turbo_stream.replace("zip_code", partial: "profiles/zip_code", locals: { profile: @profile })
+          else
+            render turbo_stream: turbo_stream.replace(@profile, partial: "profiles/profile", locals: { profile: @profile })
+          end
         end
-        format.turbo_stream
+        format.html { redirect_to @profile }
       else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@profile, partial: "profiles/profile", locals: { profile: @profile }) }
         format.html { render :edit }
-        format.json { render json: { errors: @profile.errors.full_messages }, status: :unprocessable_entity }
-        format.turbo_stream { render :update, status: :unprocessable_entity }
       end
     end
   end

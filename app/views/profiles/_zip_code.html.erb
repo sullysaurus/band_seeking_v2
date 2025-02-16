@@ -1,5 +1,5 @@
 <turbo-frame id="zip_code">
-  <div data-controller="inline-edit">
+  <div data-controller="inline-edit" class="flex flex-col space-y-2">
     <div class="flex items-center gap-2">
       <% if profile.zip_code.present? %>
         <span class="text-sm" data-inline-edit-target="display">
@@ -28,12 +28,12 @@
     <%= form_with(
           url: update_zip_profile_path(profile), 
           method: :patch,
-          class: "hidden mt-2", 
+          class: "hidden", 
           data: { 
             inline_edit_target: "form",
             turbo_frame: "zip_code"
           }) do |f| %>
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col space-y-2 mt-1">
         <div class="flex items-center gap-2">
           <%= f.text_field :zip_code,
               name: "profile[zip_code]",
