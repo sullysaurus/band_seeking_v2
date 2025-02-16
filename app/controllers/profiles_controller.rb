@@ -33,6 +33,8 @@ class ProfilesController < ApplicationController
             render turbo_stream: turbo_stream.replace("profile_name", partial: "profiles/name", locals: { profile: @profile })
           elsif params[:profile][:zip_code].present?
             render turbo_stream: turbo_stream.replace("zip_code", partial: "profiles/zip_code", locals: { profile: @profile })
+          elsif params[:profile][:bio].present?
+            render turbo_stream: turbo_stream.replace("bio_frame", partial: "profiles/bio", locals: { profile: @profile })
           else
             redirect_to @profile
           end
@@ -40,7 +42,6 @@ class ProfilesController < ApplicationController
         format.html { redirect_to @profile }
       else
         format.turbo_stream { 
-          # Handle validation errors here
           head :unprocessable_entity 
         }
         format.html { render :edit }

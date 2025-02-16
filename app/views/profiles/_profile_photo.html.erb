@@ -9,10 +9,9 @@
           class: "w-full h-full object-cover", 
           data: { profile_photo_target: "preview" } %>
     <% else %>
-      <div class="w-full h-full flex items-center justify-center bg-blue-500 text-white text-3xl sm:text-4xl font-bold"
-           data-profile_photo_target="preview">
-        <%= profile.try(:first_name).present? ? profile.first_name.first.upcase : '?' %>
-      </div>
+      <%= image_tag "default-profile.png",
+          class: "w-full h-full object-cover",
+          data: { profile_photo_target: "preview" } %>
     <% end %>
     
     <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">

@@ -5,8 +5,9 @@
           class: "w-full h-[200px] object-cover rounded-lg shadow-md",
           data: { banner_upload_target: "preview" } %>
     <% else %>
-      <div class="w-full h-[200px] bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-md"
-           data-banner-upload-target="preview"></div>
+      <%= image_tag "default-banner.jpg",
+          class: "w-full h-[200px] object-cover rounded-lg shadow-md",
+          data: { banner_upload_target: "preview" } %>
     <% end %>
     
     <%= form_with(model: @profile, 
