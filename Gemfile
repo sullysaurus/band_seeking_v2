@@ -72,3 +72,5 @@ gem "devise", "~> 4.9"
 gem "tailwindcss-ruby", "~> 4.0"
 
 gem 'dotenv-rails', groups: [:development, :test]
+
+gem 'faker'

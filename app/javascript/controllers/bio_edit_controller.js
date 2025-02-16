@@ -10,6 +10,11 @@ export default class extends Controller {
     this.inputTarget.focus()
   }
 
+  save(event) {
+    // Let the form submit normally with Turbo
+    // The form has turbo_frame data attribute which will handle the update
+  }
+
   cancel(event) {
     event.preventDefault()
     this.formTarget.classList.add("hidden")
@@ -24,7 +29,9 @@ export default class extends Controller {
   }
 
   handleBlur(event) {
-    // Optional: auto-save on blur
-    // this.element.requestSubmit()
+    // Only hide if we're not clicking within the form
+    if (!this.formTarget.contains(event.relatedTarget)) {
+      this.cancel(event)
+    }
   }
 } 
