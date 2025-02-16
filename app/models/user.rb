@@ -6,6 +6,15 @@ class User < ApplicationRecord
 
   after_create :ensure_profile
 
+  validates :username, 
+    presence: true, 
+    uniqueness: true, 
+    format: { 
+      with: /\A[a-zA-Z0-9_]+\z/, 
+      message: "can only contain letters, numbers, and underscores" 
+    },
+    length: { minimum: 3, maximum: 20 }
+
   private
 
   def ensure_profile
