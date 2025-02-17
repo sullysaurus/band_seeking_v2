@@ -1,0 +1,48 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-3xl mx-auto">
+    <% other_user = @conversation.sender == current_user ? @conversation.recipient : @conversation.sender %>
+    
+    <!-- Header -->
+    <div class="flex items-center mb-6">
+      <%= link_to conversations_path, class: "text-gray-400 hover:text-gray-600 mr-4" do %>
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+      <% end %>
+      
+      <div class="flex items-center">
+        <% if other_user.profile&.profile_photo&.attached? %>
+          <%= image_tag other_user.profile.profile_photo, class: "h-10 w-10 rounded-full object-cover" %>
+        <% else %>
+          <%= image_tag "default-profile.png", class: "h-10 w-10 rounded-full object-cover" %>
+        <% end %>
+        <h1 class="text-xl font-bold text-gray-900 ml-3"><%= other_user.username %></h1>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="bg-white shadow rounded-lg">
+      <div class="h-[500px] overflow-y-auto p-6" data-controller="scroll">
+        <%= turbo_stream_from @conversation %>
+        <div id="messages" class="space-y-4">
+          <%= render @messages %>
+        </div>
+      </div>
+
+      <!-- Message Form -->
+      <div class="border-t border-gray-200 p-4">
+        <%= form_with(model: [@conversation, @message], 
+                      class: "flex items-center space-x-3",
+                      data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }) do |f| %>
+          <%= f.text_field :body,
+              placeholder: "Type a message...",
+              class: "block w-full rounded-full border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-4 py-2",
+              data: { action: "keydown.enter->reset-form#submitOnEnter" } %>
+          
+          <%= f.submit "Send",
+              class: "inline-flex items-center rounded-full border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div> 

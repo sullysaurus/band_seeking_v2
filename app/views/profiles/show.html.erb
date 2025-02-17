@@ -7,6 +7,14 @@
     <%= render 'profiles/banner', profile: @profile %>
     <%= render 'profiles/profile_header', profile: @profile %>
 
+    <!-- Add this near the top of the profile, maybe under the name -->
+    <% if current_user && @profile.user != current_user %>
+      <%= button_to "Message", conversations_path, 
+          params: { sender_id: current_user.id, recipient_id: @profile.user.id },
+          method: :post,
+          class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    <% end %>
+
     <!-- Main grid layout -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8">
 

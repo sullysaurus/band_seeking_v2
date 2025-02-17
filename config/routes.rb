@@ -22,4 +22,8 @@ Rails.application.routes.draw do
 
   # Health check and other routes remain unchanged:
   get "up" => "rails/health#show", as: :rails_health_check
+
+  resources :conversations do
+    resources :messages, only: [:create]
+  end
 end
