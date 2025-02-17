@@ -9,6 +9,17 @@ class ConversationsController < ApplicationController
     @conversation = Conversation.find(params[:id])
     @messages = @conversation.messages.includes(:user)
     @message = Message.new
+    
+    # Mark messages as read
+    @conversation.messages.unread_for(current_user).update_all(read: true)
+    
+    # Broadcast updated notification count
+    Turbo::StreamsChannel.broadcast_update_to(
+      "notifications_#{current_user.id}",
+      target: "message_notifications",
+      partial: "shared/message_notification_count",
+      locals: { user: current_user }
+    )
   end
 
   def create
