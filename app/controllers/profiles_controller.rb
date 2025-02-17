@@ -98,6 +98,18 @@ class ProfilesController < ApplicationController
   def index
     @profiles = Profile.all
 
+    # Skip zip code filtering if show_all is present
+    unless params[:show_all]
+      # Get the search zip code (from params or user's profile)
+      search_zip = params[:zip_code].presence || current_user&.profile&.zip_code
+
+      # Filter by zip code if available
+      if search_zip.present?
+        @profiles = @profiles.where(zip_code: search_zip)
+      end
+    end
+
+    # Existing filters
     if params[:instruments].present?
       @profiles = @profiles.where("instruments_played::text[] && ?", "{#{params[:instruments].join(',')}}")
     end
