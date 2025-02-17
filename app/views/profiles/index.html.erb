@@ -2,8 +2,11 @@
   <!-- Quick Filters -->
   <%= render "quick_filters" %>
 
-  <!-- Results Grid - 4 cards across -->
+  <!-- Results Grid -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
     <%= render partial: "profile_card", collection: @profiles, as: :profile %>
   </div>
+
+  <!-- Filters Modal -->
+  <%= render "filters_modal" %>
 </div> 

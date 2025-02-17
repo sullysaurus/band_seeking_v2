@@ -96,7 +96,19 @@ class ProfilesController < ApplicationController
   end
 
   def index
-    @profiles = Profile.includes(:user).all
+    @profiles = Profile.all
+
+    if params[:instruments].present?
+      @profiles = @profiles.where("instruments_played::text[] && ?", "{#{params[:instruments].join(',')}}")
+    end
+
+    if params[:looking_for].present?
+      @profiles = @profiles.where("looking_for::text[] && ?", "{#{params[:looking_for].join(',')}}")
+    end
+
+    if params[:experience_level].present?
+      @profiles = @profiles.where(experience_level: params[:experience_level])
+    end
   end
 
   private
