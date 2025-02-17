@@ -12,7 +12,46 @@ class Profile < ApplicationRecord
     message: "should be a valid ZIP code"
   }
 
-  # Custom getter and setter for full_name (if needed)
+  INSTRUMENTS = [
+    'Guitar', 'Bass', 'Drums', 'Vocals',
+    'Piano/Keys', 'Saxophone', 'Trumpet',
+    'Violin', 'Cello', 'Flute', 'Clarinet',
+    'Trombone', 'Percussion', 'Ukulele',
+    'Mandolin', 'Banjo', 'Harmonica',
+    'DJ/Electronic'
+  ].freeze
+
+  LOOKING_FOR = [
+    'Cover Band', 
+    'Original Band', 
+    'Session Work', 
+    'Jamming'
+  ].freeze
+
+  EXPERIENCE_LEVELS = [
+    'Beginner',
+    'Intermediate',
+    'Advanced',
+    'Pro'
+  ].freeze
+
+  def profile_photo_url
+    if profile_photo.attached?
+      Rails.application.routes.url_helpers.rails_blob_path(profile_photo, only_path: true)
+    else
+      ActionController::Base.helpers.asset_path('default-profile.png')
+    end
+  end
+
+  def banner_url
+    if banner_image.attached?
+      Rails.application.routes.url_helpers.rails_blob_path(banner_image, only_path: true)
+    else
+      nil
+    end
+  end
+
+  # Custom getter and setter for full_name
   def full_name
     [first_name, last_name].compact.join(" ")
   end

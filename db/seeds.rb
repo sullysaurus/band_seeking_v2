@@ -41,6 +41,15 @@ NC_LOCATIONS = [
   { city: 'Knightdale', state: 'NC', zip: '27545' }
 ]
 
+# Default banner URLs
+BANNER_URLS = [
+  'https://images.unsplash.com/photo-1508973379184-7517410fb0bc?q=80&w=2070&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?q=80&w=2070&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=2070&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=2070&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1501612780327-45045538702b?q=80&w=2070&auto=format&fit=crop'
+]
+
 # Create users with profiles
 puts "Creating users and profiles..."
 
@@ -78,3 +87,8 @@ puts "Creating users and profiles..."
 end
 
 puts "Seed completed! Created #{User.count} users with profiles"
+
+# Update existing musician profiles with default banner
+Profile.where(banner_image: [nil, '']).find_each do |profile|
+  profile.update_column(:banner_image, 'default-banner.jpg')
+end
