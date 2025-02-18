@@ -3,6 +3,24 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["form", "input", "addButton", "playerContainer", "editForm", "editInput"]
 
+  connect() {
+    this.handleFrameLoad = this.handleFrameLoad.bind(this)
+    document.addEventListener("turbo:frame-load", this.handleFrameLoad)
+  }
+
+  handleFrameLoad(event) {
+    if (event.target.id === "spotify_section") {
+      if (this.hasFormTarget) {
+        this.formTarget.classList.add("hidden")
+        this.addButtonTarget.classList.remove("hidden")
+      }
+      if (this.hasEditFormTarget) {
+        this.editFormTarget.classList.add("hidden")
+        this.playerContainerTarget.classList.remove("hidden")
+      }
+    }
+  }
+
   showForm(event) {
     this.addButtonTarget.classList.add("hidden")
     this.formTarget.classList.remove("hidden")
@@ -40,10 +58,6 @@ export default class extends Controller {
     }
   }
 
-  save(event) {
-    // Form submission is handled by Turbo
-  }
-
   removePlayer(event) {
     event.preventDefault()
     const form = document.createElement("form")
@@ -72,5 +86,9 @@ export default class extends Controller {
     document.body.appendChild(form)
     form.requestSubmit()
     form.remove()
+  }
+
+  disconnect() {
+    document.removeEventListener("turbo:frame-load", this.handleFrameLoad)
   }
 } 
