@@ -30,11 +30,11 @@ class ProfilesController < ApplicationController
       if @profile.update(profile_params)
         format.turbo_stream do
           if params[:profile][:full_name].present?
-            render turbo_stream: turbo_stream.replace("profile_name", partial: "profiles/name", locals: { profile: @profile })
+            render turbo_stream: turbo_stream.replace("profile_name", partial: "profiles/profile_name", locals: { profile: @profile })
           elsif params[:profile][:zip_code].present?
             render turbo_stream: turbo_stream.replace("zip_code", partial: "profiles/zip_code", locals: { profile: @profile })
           elsif params[:profile][:bio].present?
-            render turbo_stream: turbo_stream.replace("about_frame", 
+            render turbo_stream: turbo_stream.replace("bio_frame", 
               render_to_string(partial: "profiles/about", locals: { profile: @profile }))
           else
             redirect_to profile_path(@profile.user.username)
