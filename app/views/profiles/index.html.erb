@@ -1,15 +1,13 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-controller="filters">
   <!-- Location Indicator -->
-  <%= render "location_indicator" %>
+  <%= render "location" %>
 
   <!-- Quick Filters -->
-  <%= render "quick_filters" %>
+  <%= render "filters" %>
 
   <!-- Results Grid -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
     <%= render partial: "profile_card", collection: @profiles, as: :profile %>
   </div>
 
-  <!-- Filters Modal -->
-  <%= render "filters_modal" %>
 </div> 

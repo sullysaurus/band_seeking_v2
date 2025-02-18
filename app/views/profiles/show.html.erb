@@ -5,7 +5,7 @@
 
     <!-- Render top sections -->
     <%= render 'profiles/banner', profile: @profile %>
-    <%= render 'profiles/profile_header', profile: @profile %>
+    <%= render 'profiles/header', profile: @profile %>
 
     <!-- Add this near the top of the profile, maybe under the name -->
     <% if current_user && @profile.user != current_user %>
@@ -17,18 +17,20 @@
 
     <!-- Main grid layout -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8">
-
       <!-- Left Sidebar -->
       <div class="lg:col-span-4 space-y-6">
-        <%= render 'profiles/sidebar', profile: @profile %>
+        <div class="space-y-6">
+          <!-- Use @profile consistently -->
+          <%= render 'profiles/preferences', profile: @profile %>
+          <%= render 'profiles/about', profile: @profile %>
+        </div>
       </div>
 
       <!-- Right Content Area -->
       <div class="lg:col-span-8 space-y-6">
-        <%= render 'profiles/spotify_section', profile: @profile %>
-        <%= render 'profiles/youtube_section', profile: @profile %>
+        <%= render 'profiles/spotify', profile: @profile %>
+        <%= render 'profiles/youtube', profile: @profile %>
       </div>
-
     </div>
   </div>
 </div>

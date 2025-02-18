@@ -2,12 +2,53 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["tag", "modal"]
+  static values = {
+    modalId: String
+  }
+
+  connect() {
+    // Add event listener for escape key
+    this.handleKeydown = this.handleKeydown.bind(this)
+    document.addEventListener('keydown', this.handleKeydown)
+  }
+
+  disconnect() {
+    document.body.classList.remove('overflow-hidden')
+    document.removeEventListener('keydown', this.handleKeydown)
+  }
+
+  toggleModal(event) {
+    event.preventDefault()
+    if (this.modalTarget.classList.contains('hidden')) {
+      this.openModal()
+    } else {
+      this.closeModal()
+    }
+  }
+
+  openModal() {
+    this.modalTarget.classList.remove('hidden')
+    document.body.classList.add('overflow-hidden')
+  }
+
+  closeModal() {
+    this.modalTarget.classList.add('hidden')
+    document.body.classList.remove('overflow-hidden')
+  }
+
+  handleKeydown(event) {
+    if (event.key === 'Escape' && !this.modalTarget.classList.contains('hidden')) {
+      this.closeModal()
+    }
+  }
 
   toggleAllFilters(event) {
     event.preventDefault()
-    const modal = document.querySelector('[data-controller="modal"]')
-    const modalController = this.application.getControllerForElementAndIdentifier(modal, 'modal')
-    modalController.open()
+    const modal = document.querySelector(`[data-controller="filters-modal"]`)
+    if (modal) {
+      const modalController = this.application.getControllerForElementAndIdentifier(modal, "filters-modal")
+      modalController.open()
+    }
   }
 
   toggleInstrument(event) {

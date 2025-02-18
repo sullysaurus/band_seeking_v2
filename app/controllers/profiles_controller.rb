@@ -34,8 +34,8 @@ class ProfilesController < ApplicationController
           elsif params[:profile][:zip_code].present?
             render turbo_stream: turbo_stream.replace("zip_code", partial: "profiles/zip_code", locals: { profile: @profile })
           elsif params[:profile][:bio].present?
-            render turbo_stream: turbo_stream.replace("bio_frame", 
-              render_to_string(partial: "profiles/bio", locals: { profile: @profile }))
+            render turbo_stream: turbo_stream.replace("about_frame", 
+              render_to_string(partial: "profiles/about", locals: { profile: @profile }))
           else
             redirect_to profile_path(@profile.user.username)
           end

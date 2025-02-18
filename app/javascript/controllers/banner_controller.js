@@ -21,7 +21,7 @@ export default class extends Controller {
         const img = document.createElement('img')
         img.src = e.target.result
         img.className = "w-full h-[200px] object-cover rounded-lg shadow-md"
-        img.dataset.bannerUploadTarget = "preview"
+        img.dataset.bannerTarget = "preview"
         this.previewTarget.parentNode.replaceChild(img, this.previewTarget)
       }
     }
