@@ -81,20 +81,3 @@ test:
 #
 production:
   <<: *default
-  primary: &primary_production
-    <<: *default
-    database: band_seeking_production
-    username: band_seeking
-    password: <%= ENV["BAND_SEEKING_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *primary_production
-    database: band_seeking_production_cache
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: band_seeking_production_queue
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: band_seeking_production_cable
-    migrations_paths: db/cable_migrate
