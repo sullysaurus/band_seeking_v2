@@ -15,17 +15,31 @@ export default class extends Controller {
     }
   }
 
-  showEdit() {
+  showEdit(event) {
+    event.preventDefault()
     this.displayTarget.classList.add('hidden')
     this.formTarget.classList.remove('hidden')
     this.inputTarget.focus()
   }
 
-  cancel(event) {
-    event.preventDefault()
+  hideForm() {
     this.formTarget.classList.add('hidden')
     this.displayTarget.classList.remove('hidden')
+  }
+
+  cancel(event) {
+    event.preventDefault()
+    this.hideForm()
     this.inputTarget.value = this.inputTarget.defaultValue
+  }
+
+  handleKeydown(event) {
+    if (event.key === 'Escape') {
+      this.cancel(event)
+    } else if (event.key === 'Enter') {
+      event.preventDefault()
+      event.target.form.requestSubmit()
+    }
   }
 
   disconnect() {
