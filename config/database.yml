@@ -93,3 +93,19 @@ queue:
 # Cache configuration
 cache:
   <<: *default
+
+# Active Storage configuration
+storage:
+  <<: *default
+
+# Action Mailbox configuration
+mailbox:
+  <<: *default
+
+# Action Text configuration
+text:
+  <<: *default
+
+# Primary configuration
+primary:
+  <<: *default
