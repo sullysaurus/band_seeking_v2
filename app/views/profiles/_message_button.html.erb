@@ -1,0 +1,8 @@
+<% if current_user && profile.user != current_user %>
+  <div class="px-4 sm:px-6 lg:px-8 py-4 border-b border-gray-200">
+    <%= button_to "Message", conversations_path, 
+        params: { sender_id: current_user.id, recipient_id: profile.user.id },
+        method: :post,
+        class: "w-full sm:w-auto px-6 py-3 text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  </div>
+<% end %> 
