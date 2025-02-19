@@ -7,10 +7,12 @@ export default class extends Controller {
   connect() {
     // Close menu when clicking outside
     document.addEventListener('click', this.closeMenuOutside.bind(this))
+    document.addEventListener('turbo:visit', this.closeMobileMenu.bind(this))
   }
 
   disconnect() {
     document.removeEventListener('click', this.closeMenuOutside.bind(this))
+    document.removeEventListener('turbo:visit', this.closeMobileMenu.bind(this))
   }
 
   toggleMobile(event) {
@@ -22,5 +24,9 @@ export default class extends Controller {
     if (!this.element.contains(event.target)) {
       this.mobileMenuTarget.classList.add('hidden')
     }
+  }
+
+  closeMobileMenu() {
+    this.mobileMenuTarget.classList.add('hidden')
   }
 }

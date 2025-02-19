@@ -8,11 +8,16 @@
           <% end %>
         </div>
         <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-          <%= link_to "Home", root_path, class: "#{current_page?(root_path) ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
+          <%= link_to "Home", root_path, 
+              data: { turbo_frame: "_top" },
+              class: "#{current_page?(root_path) ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
           
-          <%= link_to "Musicians", profiles_path, class: "#{current_page?(profiles_path) ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
+          <%= link_to "Musicians", profiles_path, 
+              data: { turbo_frame: "_top" },
+              class: "#{current_page?(profiles_path) ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
           
-          <%= link_to conversations_path, 
+          <%= link_to conversations_path,
+              data: { turbo_frame: "_top" },
               class: "#{current_page?(conversations_path) ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium relative" do %>
             <svg class="h-6 w-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
@@ -60,12 +65,15 @@
   <div class="hidden sm:hidden" data-navbar-target="mobileMenu">
     <div class="pt-2 pb-3 space-y-1">
       <%= link_to "Home", root_path, 
+          data: { turbo_frame: "_top" },
           class: "#{current_page?(root_path) ? 'bg-blue-50 border-blue-500 text-blue-700' : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'} block pl-3 pr-4 py-2 border-l-4 text-base font-medium" %>
       
       <%= link_to "Musicians", profiles_path, 
+          data: { turbo_frame: "_top" },
           class: "#{current_page?(profiles_path) ? 'bg-blue-50 border-blue-500 text-blue-700' : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'} block pl-3 pr-4 py-2 border-l-4 text-base font-medium" %>
       
-      <%= link_to conversations_path, 
+      <%= link_to conversations_path,
+          data: { turbo_frame: "_top" },
           class: "#{current_page?(conversations_path) ? 'bg-blue-50 border-blue-500 text-blue-700' : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'} block pl-3 pr-4 py-2 border-l-4 text-base font-medium relative flex items-center" do %>
         <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
