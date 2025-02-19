@@ -5,10 +5,6 @@ set -e
 
 echo "🚀 Starting deployment process..."
 
-# Install or update JavaScript dependencies using npm
-echo "📦 Installing JavaScript dependencies..."
-npm install
-
 # Precompile assets
 echo "🎨 Precompiling assets..."
 RAILS_ENV=production bundle exec rails assets:precompile
