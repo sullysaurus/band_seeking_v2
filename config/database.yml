@@ -89,3 +89,7 @@ cable:
 # Active Job queue configuration
 queue:
   <<: *default
+
+# Cache configuration
+cache:
+  <<: *default
