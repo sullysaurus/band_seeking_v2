@@ -1,0 +1,13 @@
+{
+  "name": "bandmate",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "prettier": "^2.8.8",
+    "@prettier/plugin-ruby": "^1.6.1"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  }
+}

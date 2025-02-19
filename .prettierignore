@@ -1,0 +1,7 @@
+tmp/
+log/
+public/
+vendor/
+node_modules/
+coverage/
+db/schema.rb 

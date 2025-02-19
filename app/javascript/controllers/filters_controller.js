@@ -1,7 +1,7 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ["tag", "modal"]
+  static targets = ['tag', 'modal']
   static values = {
     modalId: String
   }
@@ -46,7 +46,10 @@ export default class extends Controller {
     event.preventDefault()
     const modal = document.querySelector(`[data-controller="filters-modal"]`)
     if (modal) {
-      const modalController = this.application.getControllerForElementAndIdentifier(modal, "filters-modal")
+      const modalController = this.application.getControllerForElementAndIdentifier(
+        modal,
+        'filters-modal'
+      )
       modalController.open()
     }
   }
@@ -56,16 +59,16 @@ export default class extends Controller {
     const instrument = event.currentTarget.dataset.instrument
     const currentParams = new URLSearchParams(window.location.search)
     let instruments = currentParams.getAll('instruments[]')
-    
+
     if (instruments.includes(instrument)) {
-      instruments = instruments.filter(i => i !== instrument)
+      instruments = instruments.filter((i) => i !== instrument)
     } else {
       instruments.push(instrument)
     }
-    
+
     currentParams.delete('instruments[]')
-    instruments.forEach(i => currentParams.append('instruments[]', i))
-    
+    instruments.forEach((i) => currentParams.append('instruments[]', i))
+
     this.applyFilters(currentParams)
   }
 
@@ -74,16 +77,16 @@ export default class extends Controller {
     const lookingFor = event.currentTarget.dataset.lookingFor
     const currentParams = new URLSearchParams(window.location.search)
     let lookingForValues = currentParams.getAll('looking_for[]')
-    
+
     if (lookingForValues.includes(lookingFor)) {
-      lookingForValues = lookingForValues.filter(l => l !== lookingFor)
+      lookingForValues = lookingForValues.filter((l) => l !== lookingFor)
     } else {
       lookingForValues.push(lookingFor)
     }
-    
+
     currentParams.delete('looking_for[]')
-    lookingForValues.forEach(l => currentParams.append('looking_for[]', l))
-    
+    lookingForValues.forEach((l) => currentParams.append('looking_for[]', l))
+
     this.applyFilters(currentParams)
   }
 
@@ -91,13 +94,13 @@ export default class extends Controller {
     event.preventDefault()
     const experience = event.currentTarget.dataset.experience
     const currentParams = new URLSearchParams(window.location.search)
-    
+
     if (currentParams.get('experience_level') === experience) {
       currentParams.delete('experience_level')
     } else {
       currentParams.set('experience_level', experience)
     }
-    
+
     this.applyFilters(currentParams)
   }
 

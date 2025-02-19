@@ -1,8 +1,8 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus'
 
 // Connects to data-controller="profile-photo"
 export default class extends Controller {
-  static targets = ["input", "preview"]
+  static targets = ['input', 'preview']
 
   triggerFileInput() {
     this.inputTarget.click()
@@ -13,7 +13,7 @@ export default class extends Controller {
     if (!file) return
 
     const reader = new FileReader()
-    
+
     reader.onload = (e) => {
       if (this.hasPreviewTarget) {
         if (this.previewTarget.tagName === 'IMG') {
@@ -30,18 +30,18 @@ export default class extends Controller {
     }
 
     reader.readAsDataURL(file)
-    
+
     // Submit form
     const formData = new FormData(this.element)
-    
+
     fetch(this.element.action, {
       method: 'PATCH',
       body: formData,
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
       },
       credentials: 'same-origin'
     })
   }
-} 
+}

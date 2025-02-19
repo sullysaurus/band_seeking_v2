@@ -1,8 +1,8 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus'
 
 // Connects to data-controller="navbar"
 export default class extends Controller {
-  static targets = ["menu", "mobileMenu"]
+  static targets = ['menu', 'mobileMenu']
 
   connect() {
     // Close menu when clicking outside
@@ -15,12 +15,12 @@ export default class extends Controller {
 
   toggleMobile(event) {
     event.stopPropagation()
-    this.mobileMenuTarget.classList.toggle("hidden")
+    this.mobileMenuTarget.classList.toggle('hidden')
   }
 
   closeMenuOutside(event) {
     if (!this.element.contains(event.target)) {
-      this.mobileMenuTarget.classList.add("hidden")
+      this.mobileMenuTarget.classList.add('hidden')
     }
   }
 }

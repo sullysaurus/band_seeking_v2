@@ -1,7 +1,7 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ["input", "preview"]
+  static targets = ['input', 'preview']
 
   triggerFileInput(event) {
     this.inputTarget.click()
@@ -20,8 +20,8 @@ export default class extends Controller {
         // Create new image element if preview is currently a div
         const img = document.createElement('img')
         img.src = e.target.result
-        img.className = "w-full h-[200px] object-cover rounded-lg shadow-md"
-        img.dataset.bannerTarget = "preview"
+        img.className = 'w-full h-[200px] object-cover rounded-lg shadow-md'
+        img.dataset.bannerTarget = 'preview'
         this.previewTarget.parentNode.replaceChild(img, this.previewTarget)
       }
     }

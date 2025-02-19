@@ -1,7 +1,7 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ["tag", "input", "form"]
+  static targets = ['tag', 'input', 'form']
 
   connect() {
     // Initialize hidden inputs based on active tags
@@ -11,7 +11,7 @@ export default class extends Controller {
   toggle(event) {
     event.preventDefault()
     const button = event.currentTarget
-    
+
     // Toggle active state
     if (button.classList.contains('bg-blue-500')) {
       button.classList.remove('bg-blue-500', 'text-white')
@@ -23,7 +23,7 @@ export default class extends Controller {
 
     // Update hidden inputs and submit form
     this.updateInputs()
-    
+
     // Submit form with fetch to prevent page reload
     this.submitForm()
   }
@@ -31,13 +31,13 @@ export default class extends Controller {
   toggleSingle(event) {
     event.preventDefault()
     const button = event.currentTarget
-    
+
     // Remove active state from all buttons
-    this.tagTargets.forEach(tag => {
+    this.tagTargets.forEach((tag) => {
       tag.classList.remove('bg-blue-500', 'text-white')
       tag.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200')
     })
-    
+
     // Add active state to clicked button
     button.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200')
     button.classList.add('bg-blue-500', 'text-white')
@@ -54,7 +54,7 @@ export default class extends Controller {
       method: 'PATCH',
       body: formData,
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'X-CSRF-Token': document.querySelector("[name='csrf-token']").content
       },
       credentials: 'same-origin'
@@ -68,7 +68,7 @@ export default class extends Controller {
         this.inputTarget.nextElementSibling.remove()
       }
 
-      this.tagTargets.forEach(tag => {
+      this.tagTargets.forEach((tag) => {
         if (tag.classList.contains('bg-blue-500')) {
           const input = document.createElement('input')
           input.type = 'hidden'
@@ -79,8 +79,8 @@ export default class extends Controller {
       })
     } else {
       // Handle single selection
-      const activeTag = this.tagTargets.find(tag => tag.classList.contains('bg-blue-500'))
+      const activeTag = this.tagTargets.find((tag) => tag.classList.contains('bg-blue-500'))
       this.inputTarget.value = activeTag ? activeTag.dataset.value : ''
     }
   }
-} 
+}

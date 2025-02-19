@@ -1,28 +1,24 @@
 <turbo-frame id="zip_code">
   <div data-controller="inline-edit" class="flex flex-col space-y-2">
     <div class="flex items-center gap-2">
-      <% if profile.zip_code.present? %>
-        <span class="text-sm" data-inline-edit-target="display">
-          <% if profile.city.present? && profile.state.present? %>
-            <%= "#{profile.city}, #{profile.state} #{profile.zip_code}" %>
-          <% else %>
-            <%= profile.zip_code %>
-          <% end %>
-        </span>
-      <% else %>
-        <span class="text-sm text-gray-400" data-inline-edit-target="display">
-          Add location
-        </span>
-      <% end %>
+      <span class="text-sm" data-inline-edit-target="display">
+        <% if profile.city.present? && profile.state.present? %>
+          <%= "#{profile.city}, #{profile.state} #{profile.zip_code}" %>
+        <% else %>
+          <%= profile.zip_code.presence || "Location not set" %>
+        <% end %>
+      </span>
       
-      <button type="button" 
-              class="text-blue-500 hover:text-blue-600"
-              data-action="inline-edit#showForm">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-        </svg>
-      </button>
+      <% if current_user&.profile == profile %>
+        <button type="button" 
+                class="text-blue-500 hover:text-blue-600"
+                data-action="inline-edit#showForm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+          </svg>
+        </button>
+      <% end %>
     </div>
 
     <%= form_with(
