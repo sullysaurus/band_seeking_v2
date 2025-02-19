@@ -3,20 +3,32 @@
 # Exit on error
 set -e
 
+echo "🚀 Starting deployment process..."
+
+# Install or update JavaScript dependencies
+echo "📦 Installing JavaScript dependencies..."
+yarn install
+
+# Precompile assets
+echo "🎨 Precompiling assets..."
+RAILS_ENV=production bundle exec rails assets:precompile
+
 # Wait for database to be ready
-echo "Waiting for PostgreSQL to be ready..."
-bundle exec rails runner "ActiveRecord::Base.connection.execute('SELECT 1')" > /dev/null 2>&1
-while [ $? -ne 0 ]; do
+echo "🔄 Waiting for PostgreSQL to be ready..."
+while ! bundle exec rails runner "ActiveRecord::Base.connection.execute('SELECT 1')" > /dev/null 2>&1; do
     echo "PostgreSQL is unavailable - sleeping"
     sleep 1
-    bundle exec rails runner "ActiveRecord::Base.connection.execute('SELECT 1')" > /dev/null 2>&1
 done
 
-echo "PostgreSQL is up - executing migrations"
+echo "✅ PostgreSQL is up - executing migrations"
 
 # Run database migrations
 bundle exec rails db:migrate
 
+# Remove any existing server.pid file
+echo "🧹 Cleaning up old server.pid..."
+rm -f tmp/pids/server.pid
+
 # Start the Rails server
-echo "Starting Rails server..."
+echo "🚂 Starting Rails server..."
 bundle exec puma -C config/puma.rb 
