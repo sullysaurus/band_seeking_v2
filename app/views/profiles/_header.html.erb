@@ -1,3 +1,8 @@
+<!-- Banner -->
+<div class="mb-4">
+  <%= render "profiles/banner", profile: profile %>
+</div>
+
 <div class="relative flex flex-col sm:flex-row items-center sm:items-start -mt-16">
   <!-- Profile Image -->
   <div class="mx-auto sm:mx-0 sm:ml-8">
@@ -6,7 +11,16 @@
 
   <!-- Profile Info -->
   <div class="mt-4 sm:ml-8 sm:mt-16 text-center sm:text-left w-full">
-    <%= render "profiles/profile_name", profile: profile %>
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 sm:gap-0">
+      <%= render "profiles/profile_name", profile: profile %>
+      
+      <% if current_user && profile.user != current_user %>
+        <%= button_to "Message", conversations_path, 
+            params: { sender_id: current_user.id, recipient_id: profile.user.id },
+            method: :post,
+            class: "w-full sm:w-auto px-6 py-2 text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      <% end %>
+    </div>
 
     <div class="flex flex-col sm:flex-row items-center gap-3 mt-2 text-gray-700">
       <!-- Editable Location/Zip Code -->

@@ -74,3 +74,5 @@ gem "tailwindcss-ruby", "~> 4.0"
 gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'faker'
+
+gem 'active_storage_validations'

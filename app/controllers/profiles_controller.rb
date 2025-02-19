@@ -56,15 +56,6 @@ class ProfilesController < ApplicationController
                          profile: @profile
                        }
                      )
-          elsif params[:profile][:banner_image].present?
-            render turbo_stream:
-                     turbo_stream.replace(
-                       'banner_frame',
-                       partial: 'profiles/banner',
-                       locals: {
-                         profile: @profile
-                       }
-                     )
           else
             redirect_to profile_path(@profile.user.username)
           end

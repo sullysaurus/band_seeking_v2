@@ -51,7 +51,7 @@ class Profile < ApplicationRecord
     if banner_image.attached?
       Rails.application.routes.url_helpers.rails_blob_path(banner_image, only_path: true)
     else
-      nil
+      ActionController::Base.helpers.asset_path('default-banner.jpg')
     end
   end
 

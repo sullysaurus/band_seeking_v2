@@ -2,7 +2,7 @@
   <!-- Banner/Profile Photo -->
   <div class="relative h-32 bg-gray-200">
     <% if profile.banner_url.present? %>
-      <%= image_tag profile.banner, class: "w-full h-32 object-cover" %>
+      <%= image_tag profile.banner_url, class: "w-full h-32 object-cover" %>
     <% else %>
       <%= image_tag "default-banner.jpg", class: "w-full h-32 object-cover" %>
     <% end %>

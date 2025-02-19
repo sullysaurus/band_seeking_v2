@@ -4,10 +4,7 @@
   <div class="bg-white shadow-lg rounded-lg w-full max-w-6xl p-4 sm:p-8" data-controller="profile">
 
     <!-- Render top sections -->
-    <%= render 'profiles/banner', profile: @profile %>
     <%= render 'profiles/header', profile: @profile %>
-    <%= render 'profiles/message_button', profile: @profile %>
-
     <!-- Main grid layout -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8">
       <!-- Left Sidebar -->

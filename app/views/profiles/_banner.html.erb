@@ -1,59 +1,37 @@
-<turbo-frame id="banner_frame">
-  <div class="relative group" data-controller="banner">
-    <% if @profile.banner_image.attached? %>
-      <%=
-        image_tag @profile.banner_image,
-                  class: 'w-full h-[200px] object-cover rounded-lg shadow-md',
-                  data: {
-                    banner_target: 'preview'
-                  }
-      %>
-    <% else %>
-      <%=
-        image_tag 'default-banner.jpg',
-                  class: 'w-full h-[200px] object-cover rounded-lg shadow-md',
-                  data: {
-                    banner_target: 'preview'
-                  }
-      %>
-    <% end %>
-
-    <%= form_with(model: @profile, local: false) do |f| %>
-      <%=
-        f.file_field :banner_image,
-                     id: 'banner_image_upload',
-                     direct_upload: true,
-                     class: 'hidden',
-                     accept: 'image/*',
-                     data: {
-                       banner_target: 'input',
-                       action:
-                         'change->banner#updateBanner direct-upload:initialize->banner#initializeUpload'
-                     }
-      %>
-
-      <div
-        class="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-        data-action="click->banner#triggerFileInput"
-      >
+<div class="relative group">
+  <%= form_with(model: profile, 
+        data: { 
+          controller: "banner",
+          turbo: true
+        }) do |f| %>
+    <div class="relative cursor-pointer" data-action="click->banner#triggerFileInput">
+      <% if profile.banner_image.attached? %>
+        <%= image_tag profile.banner_url,
+            class: "w-full h-[200px] object-cover rounded-lg shadow-md",
+            data: { banner_target: "preview" } %>
+      <% else %>
+        <%= image_tag "default-banner.jpg",
+            class: "w-full h-[200px] object-cover rounded-lg shadow-md",
+            data: { banner_target: "preview" } %>
+      <% end %>
+      
+      <div class="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
         <div class="text-white flex flex-col items-center">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-            />
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-            />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
           </svg>
           <span class="mt-2 text-sm font-medium">Update Banner</span>
         </div>
       </div>
-    <% end %>
-  </div>
-</turbo-frame>
+    </div>
+
+    <%= f.file_field :banner_image, 
+        class: "hidden",
+        accept: "image/*",
+        data: { 
+          banner_target: "input",
+          action: "change->banner#updateBanner"
+        } %>
+  <% end %>
+</div>
