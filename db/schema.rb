@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_19_154526) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_19_155015) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -121,6 +121,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_19_154526) do
     t.string "message_type"
     t.json "content"
     t.datetime "created_at", null: false
+    t.string "channel_hash"
+    t.index ["channel_hash"], name: "index_solid_cable_messages_on_channel_hash"
     t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
     t.index ["stream_name"], name: "index_solid_cable_messages_on_stream_name"
   end
