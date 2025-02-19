@@ -21,7 +21,7 @@ Rails.application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
 
-  # Use local storage for now (Railway provides persistent storage)
+  # Use persistent storage for Active Storage (Railway provides persistent storage)
   config.active_storage.service = :google
   config.active_storage.resolve_model_to_route = :rails_storage_proxy
 
@@ -30,9 +30,6 @@ Rails.application.configure do
 
   # Force SSL
   config.force_ssl = true
-
-  # Skip http-to-https redirect for the default health check endpoint.
-  # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
 
   # Log to STDOUT with the current request id as a default log tag.
   config.log_tags = [:request_id]
@@ -54,40 +51,10 @@ Rails.application.configure do
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
-
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: 'example.com' }
-
-  # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
-  # config.action_mailer.smtp_settings = {
-  #   user_name: Rails.application.credentials.dig(:smtp, :user_name),
-  #   password: Rails.application.credentials.dig(:smtp, :password),
-  #   address: "smtp.example.com",
-  #   port: 587,
-  #   authentication: :plain
-  # }
-
-  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-  # the I18n.default_locale when a translation cannot be found).
-  config.i18n.fallbacks = true
-
-  # Do not dump schema after migrations.
-  config.active_record.dump_schema_after_migration = false
-
-  # Only use :id for inspections in production.
-  config.active_record.attributes_for_inspect = [:id]
-
-  # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
-  #
-  # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  config.action_mailer.default_url_options = {
+    host: ENV.fetch('RAILWAY_STATIC_URL', 'bandmate.up.railway.app')
+  }
 
   # Ensure assets are compiled
   config.assets.compile = true
@@ -98,7 +65,16 @@ Rails.application.configure do
 
   # Action Cable configuration
   config.action_cable.disable_request_forgery_protection = true
-  config.action_cable.url =
-    "wss://#{ENV.fetch('RAILWAY_STATIC_URL', 'bandmate.up.railway.app')}/cable"
-  config.action_cable.allowed_request_origins = [/.*/]
+
+  # Set the cable URL using your environment variable; adjust the fallback as needed.
+  cable_url = "wss://#{ENV.fetch('RAILWAY_STATIC_URL', 'bandmate.up.railway.app')}/cable"
+  config.action_cable.url = cable_url
+
+  # Restrict allowed request origins to your application's domain.
+  config.action_cable.allowed_request_origins = [
+    "https://#{ENV.fetch('RAILWAY_STATIC_URL', 'bandmate.up.railway.app')}"
+  ]
+
+  # Optional: Uncomment the following line if you wish to log Action Cable connection events for debugging.
+  # config.action_cable.log_tags = [->(request) { request.uuid }]
 end
