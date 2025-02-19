@@ -2,24 +2,33 @@ class ConversationsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @conversations = Conversation.where("sender_id = ? OR recipient_id = ?", current_user.id, current_user.id)
+    @conversations =
+      Conversation.where('sender_id = ? OR recipient_id = ?', current_user.id, current_user.id)
   end
 
   def show
     @conversation = Conversation.find(params[:id])
     @messages = @conversation.messages.includes(:user)
     @message = Message.new
-    
+
     # Mark messages as read
     @conversation.messages.unread_for(current_user).update_all(read: true)
-    
+
     # Broadcast updated notification count
     Turbo::StreamsChannel.broadcast_update_to(
       "notifications_#{current_user.id}",
-      target: "message_notifications",
-      partial: "shared/message_notification_count",
-      locals: { user: current_user }
+      target: 'message_notifications',
+      partial: 'shared/message_notification_count',
+      locals: {
+        user: current_user
+      }
     )
+  rescue ActiveRecord::RecordNotFound
+    redirect_to conversations_path, alert: 'Conversation not found'
+  rescue => e
+    Rails.logger.error "Conversation show error: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+    redirect_to conversations_path, alert: 'Something went wrong'
   end
 
   def create
@@ -37,4 +46,4 @@ class ConversationsController < ApplicationController
   def conversation_params
     params.permit(:sender_id, :recipient_id)
   end
-end 
+end

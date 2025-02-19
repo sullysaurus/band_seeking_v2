@@ -13,35 +13,16 @@ export default class extends Controller {
 
   updateBanner(event) {
     const file = event.target.files[0]
-    if (!file) return
-
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      if (this.hasPreviewTarget) {
-        if (this.previewTarget.tagName === 'IMG') {
-          this.previewTarget.src = e.target.result
-        } else {
-          const img = document.createElement('img')
-          img.src = e.target.result
-          img.className = 'w-full h-[200px] object-cover rounded-lg shadow-md'
-          img.dataset.bannerTarget = 'preview'
-          this.previewTarget.replaceWith(img)
-        }
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        this.previewTarget.src = e.target.result
       }
-    }
-    reader.readAsDataURL(file)
+      reader.readAsDataURL(file)
 
-    // Submit form directly
-    const formData = new FormData(this.element)
-    fetch(this.element.action, {
-      method: 'PATCH',
-      body: formData,
-      headers: {
-        Accept: 'application/json',
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-      },
-      credentials: 'same-origin'
-    })
+      const form = this.element.closest('form')
+      if (form) form.requestSubmit()
+    }
   }
 
   initializeUpload(event) {

@@ -23,6 +23,7 @@ Rails.application.configure do
 
   # Use local storage for now (Railway provides persistent storage)
   config.active_storage.service = :google
+  config.active_storage.resolve_model_to_route = :rails_storage_proxy
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   config.assume_ssl = true
