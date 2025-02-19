@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Exit on error
+set -e
+
+# Wait for database to be ready
+echo "Waiting for PostgreSQL to be ready..."
+while ! pg_isready -h $DATABASE_URL 2>/dev/null; do
+  sleep 1
+done
+
+# Run database migrations
+echo "Running database migrations..."
+bundle exec rails db:migrate
+
+# Start the Rails server
+echo "Starting Rails server..."
+bundle exec puma -C config/puma.rb 
