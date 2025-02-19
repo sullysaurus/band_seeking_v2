@@ -5,7 +5,7 @@ class Profile < ApplicationRecord
 
   # Geocode by zip code
   geocoded_by :zip_code
-  after_validation :geocode
+  after_validation :geocode, if: ->(obj) { obj.zip_code.present? && obj.zip_code_changed? }
 
   validates :zip_code,
             presence: true,

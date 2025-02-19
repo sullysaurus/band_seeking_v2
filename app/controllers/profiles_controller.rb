@@ -107,13 +107,10 @@ class ProfilesController < ApplicationController
   def index
     @profiles = Profile.all
 
-    # Skip zip code filtering if show_all is present
-    unless params[:show_all]
-      # Get the search zip code (from params or user's profile)
-      search_zip = params[:zip_code].presence || current_user&.profile&.zip_code
-
-      # Filter by zip code if available
-      @profiles = @profiles.where(zip_code: search_zip) if search_zip.present?
+    # Apply location filter if zip_code is present
+    if params[:zip_code].present?
+      radius = params[:radius].presence || 25
+      @profiles = @profiles.near(params[:zip_code], radius.to_i)
     end
 
     # Existing filters

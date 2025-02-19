@@ -11,25 +11,41 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
       <span>
-        <%= params[:zip_code] || current_user&.profile&.zip_code || "All Locations" %>
+        <% if params[:zip_code].present? %>
+          <%= "Within #{params[:radius] || 25} miles of #{params[:zip_code]}" %>
+        <% else %>
+          All Musicians
+        <% end %>
       </span>
     </div>
 
     <!-- Edit Form -->
     <div data-location-target="form" class="hidden">
-      <%= form_with(model: current_user.profile,
-            url: profile_path(current_user.profile),
+      <%= form_with(url: profiles_path,
+            method: :get,
             class: "flex items-center gap-2", 
             data: { 
-              turbo_frame: "location_frame"
+              turbo_frame: "_top"
             }) do |f| %>
-        <%= f.text_field :zip_code, 
-            placeholder: "Enter zip",
-            class: "w-24 bg-transparent border-none text-blue-700 focus:ring-0 p-0 text-sm",
-            data: { 
-              location_target: "input",
-              action: "keydown->location#handleKeydown"
-            } %>
+        <div class="flex gap-2 items-center">
+          <%= f.text_field :zip_code, 
+              placeholder: "Enter zip",
+              class: "w-24 bg-white border border-gray-300 rounded px-2 py-1 text-sm text-blue-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              data: { 
+                location_target: "input",
+                action: "keydown->location#handleKeydown"
+              } %>
+          
+          <%= f.select :radius,
+              options_for_select([
+                ["10 miles", 10],
+                ["25 miles", 25],
+                ["50 miles", 50],
+                ["100 miles", 100]
+              ], selected: params[:radius] || 25),
+              {},
+              class: "bg-white border border-gray-300 rounded px-2 py-1 text-sm text-blue-700" %>
+        </div>
         
         <div class="flex gap-2">
           <%= f.submit "Update", 
@@ -43,9 +59,10 @@
       <% end %>
     </div>
 
-    <% if params[:zip_code].present? || (current_user&.profile&.zip_code.present? && !params[:show_all]) %>
-      <%= link_to "Show All", profiles_path(show_all: true), 
-          class: "text-gray-500 hover:text-gray-700 text-sm font-medium" %>
+    <% if params[:zip_code].present? %>
+      <%= link_to "Show All", profiles_path, 
+          class: "text-gray-500 hover:text-gray-700 text-sm font-medium",
+          data: { turbo_frame: "_top" } %>
     <% end %>
   </div>
 </turbo-frame>
