@@ -1,7 +1,9 @@
 {
   "name": "bandmate",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "@hotwired/turbo-rails": "^7.0.0"
+  },
   "devDependencies": {
     "prettier": "^2.8.8",
     "@prettier/plugin-ruby": "^1.6.1"
