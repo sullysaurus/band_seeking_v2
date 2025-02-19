@@ -78,29 +78,20 @@ class ProfilesController < ApplicationController
   end
 
   def update_zip
-    if @profile.update(zip_code: params[:profile][:zip_code])
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream:
-                   turbo_stream.replace(
-                     'zip_code',
-                     partial: 'profiles/zip_code',
-                     locals: {
-                       profile: @profile
-                     }
-                   )
-        end
+    @profile.update(zip_code: params[:profile][:zip_code])
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream:
+                 turbo_stream.replace(
+                   'zip_code',
+                   partial: 'profiles/zip_code',
+                   locals: {
+                     profile: @profile
+                   }
+                 ),
+               status: (@profile.errors.empty? ? :ok : :unprocessable_entity)
       end
-    else
-      render turbo_stream:
-               turbo_stream.replace(
-                 'zip_code',
-                 partial: 'profiles/zip_code',
-                 locals: {
-                   profile: @profile
-                 }
-               ),
-             status: :unprocessable_entity
     end
   end
 
