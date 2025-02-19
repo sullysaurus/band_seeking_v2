@@ -22,11 +22,6 @@
               data-value="<%= option %>"
               data-action="click->tags#toggle">
               <%= option %>
-              <% if active %>
-                <svg class="w-4 h-4 ml-1.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              <% end %>
             </button>
           <% end %>
           <%= f.hidden_field :looking_for, multiple: true, value: [], data: { tags_target: "input" } %>
@@ -67,11 +62,6 @@
               data-value="<%= instrument %>"
               data-action="click->tags#toggle">
               <%= instrument %>
-              <% if active %>
-                <svg class="w-4 h-4 ml-1.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              <% end %>
             </button>
           <% end %>
           <%= f.hidden_field :instruments_played, multiple: true, value: [], data: { tags_target: "input" } %>
