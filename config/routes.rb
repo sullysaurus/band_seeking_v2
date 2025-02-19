@@ -2,6 +2,7 @@ Rails
   .application
   .routes
   .draw do
+    get '/health', to: proc { [200, {}, ['ok']] }
     get 'home/index'
     root 'home#index'
 

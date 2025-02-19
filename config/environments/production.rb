@@ -97,10 +97,8 @@ Rails.application.configure do
   config.assets.js_compressor = :terser
 
   # Action Cable configuration
+  config.action_cable.disable_request_forgery_protection = true
   config.action_cable.url =
     "wss://#{ENV.fetch('RAILWAY_STATIC_URL', 'bandmate.up.railway.app')}/cable"
-  config.action_cable.allowed_request_origins = [
-    "https://#{ENV.fetch('RAILWAY_STATIC_URL', 'bandmate.up.railway.app')}",
-    %r{http:\/\/localhost:\d+}
-  ]
+  config.action_cable.allowed_request_origins = [/.*/]
 end
