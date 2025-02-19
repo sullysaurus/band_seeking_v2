@@ -85,3 +85,7 @@ production:
 # Add this section for Action Cable
 cable:
   <<: *default
+
+# Active Job queue configuration
+queue:
+  <<: *default
