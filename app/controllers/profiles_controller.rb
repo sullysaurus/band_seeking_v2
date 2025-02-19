@@ -105,7 +105,7 @@ class ProfilesController < ApplicationController
   end
 
   def index
-    @profiles = Profile.all
+    @profiles = Profile.includes(:user).with_attached_profile_photo
 
     # Apply location filter if zip_code is present
     if params[:zip_code].present?
