@@ -1,0 +1,132 @@
+<!-- app/views/profiles/_details_card.html.erb -->
+
+<!-- Profile Details Card -->
+<div class="bg-white shadow rounded-lg p-6">
+
+  <!-- Looking For Section -->
+  <% if current_user&.profile == profile || profile.looking_for.present? %>
+    <div class="mb-6" data-controller="<%= 'preferences' if current_user&.profile == profile %>">
+      <div class="flex items-center mb-3">
+        <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <h3 class="font-bold text-lg">Looking For</h3>
+      </div>
+      <% if current_user&.profile == profile %>
+        <%= form_with(model: profile, data: { preferences_target: "form" }) do |f| %>
+          <div class="flex flex-wrap gap-2">
+            <% ['Cover Band', 'Original Band', 'Session Work', 'Jamming'].each do |option| %>
+              <% active = profile.looking_for&.include?(option) %>
+              <button type="button"
+                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors duration-150 <%= active ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' %>"
+                data-preferences-target="tag"
+                data-value="<%= option %>"
+                data-action="click->preferences#toggle">
+                <%= option %>
+                <% if active %>
+                  <svg class="w-4 h-4 ml-1.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                <% end %>
+              </button>
+            <% end %>
+            <%= f.hidden_field :looking_for, multiple: true, value: [], data: { preferences_target: "input" } %>
+          </div>
+        <% end %>
+      <% else %>
+        <!-- Read-only view -->
+        <div class="flex flex-wrap gap-2">
+          <% profile.looking_for&.reject(&:blank?)&.each do |option| %>
+            <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-blue-500 text-white">
+              <%= option %>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Instruments Section -->
+  <% if current_user&.profile == profile || profile.instruments_played.present? %>
+    <div class="mb-6" data-controller="<%= 'preferences' if current_user&.profile == profile %>">
+      <div class="flex items-center mb-3">
+        <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+        </svg>
+        <h3 class="font-bold text-lg">Instruments</h3>
+      </div>
+      <% if current_user&.profile == profile %>
+        <%= form_with(model: profile, data: { preferences_target: "form" }) do |f| %>
+          <div class="flex flex-wrap gap-2">
+            <% instruments = [
+              'Guitar', 'Bass', 'Drums', 'Vocals',
+              'Piano/Keys', 'Saxophone', 'Trumpet',
+              'Violin', 'Cello', 'Flute', 'Clarinet',
+              'Trombone', 'Percussion', 'Ukulele',
+              'Mandolin', 'Banjo', 'Harmonica',
+              'DJ/Electronic'
+            ] %>
+            <% instruments.each do |instrument| %>
+              <% active = profile.instruments_played&.include?(instrument) %>
+              <button type="button"
+                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors duration-150 <%= active ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' %>"
+                data-preferences-target="tag"
+                data-value="<%= instrument %>"
+                data-action="click->preferences#toggle">
+                <%= instrument %>
+                <% if active %>
+                  <svg class="w-4 h-4 ml-1.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                <% end %>
+              </button>
+            <% end %>
+            <%= f.hidden_field :instruments_played, multiple: true, value: [], data: { preferences_target: "input" } %>
+          </div>
+        <% end %>
+      <% else %>
+        <!-- Read-only view -->
+        <div class="flex flex-wrap gap-2">
+          <% profile.instruments_played&.reject(&:blank?)&.each do |instrument| %>
+            <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-blue-500 text-white">
+              <%= instrument %>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Experience Level -->
+  <% if current_user&.profile == profile || profile.experience_level.present? %>
+    <div class="mb-6" data-controller="<%= 'preferences' if current_user&.profile == profile %>">
+      <div class="flex items-center mb-3">
+        <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <h3 class="font-bold text-lg">Experience Level</h3>
+      </div>
+      <% if current_user&.profile == profile %>
+        <%= form_with(model: profile, data: { preferences_target: "form" }) do |f| %>
+          <div class="flex flex-wrap gap-2">
+            <% ['Beginner', 'Intermediate', 'Advanced', 'Pro'].each do |level| %>
+              <% active = (profile.experience_level == level) %>
+              <button type="button"
+                class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-150 <%= active ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' %>"
+                data-preferences-target="tag"
+                data-value="<%= level %>"
+                data-action="click->preferences#toggleSingle">
+                <%= level %>
+              </button>
+            <% end %>
+            <%= f.hidden_field :experience_level, data: { preferences_target: "input" } %>
+          </div>
+        <% end %>
+      <% elsif profile.experience_level.present? %>
+        <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-blue-500 text-white">
+          <%= profile.experience_level %>
+        </span>
+      <% end %>
+    </div>
+  <% end %>
+</div>

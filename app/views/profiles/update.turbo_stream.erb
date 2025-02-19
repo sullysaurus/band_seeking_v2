@@ -1,7 +1,7 @@
-<%= turbo_stream.replace "spotify_section" do %>
-  <%= render "profiles/spotify_section", profile: @profile %>
+<%= turbo_stream.replace "spotify" do %>
+  <%= render "profiles/spotify", profile: @profile %>
 <% end %>
 
-<%= turbo_stream.replace "youtube_section" do %>
-  <%= render "profiles/youtube_section", profile: @profile %>
+<%= turbo_stream.replace "youtube" do %>
+  <%= render "profiles/youtube", profile: @profile %>
 <% end %> 

@@ -5,7 +5,7 @@
 
     <!-- Render top sections -->
     <%= render 'profiles/banner', profile: @profile %>
-    <%= render 'profiles/profile_header', profile: @profile %>
+    <%= render 'profiles/header', profile: @profile %>
 
     <!-- Add this near the top of the profile, maybe under the name -->
     <% if current_user && @profile.user != current_user %>
@@ -17,18 +17,32 @@
 
     <!-- Main grid layout -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8">
-
       <!-- Left Sidebar -->
       <div class="lg:col-span-4 space-y-6">
-        <%= render 'profiles/sidebar', profile: @profile %>
+        <div class="space-y-6">
+          <!-- Use @profile consistently -->
+          <%= render 'profiles/preferences', profile: @profile %>
+          
+          <!-- About Me section with fixed container -->
+          <div class="bg-white shadow rounded-lg p-6">
+            <div class="mb-6">
+              <div class="flex items-center mb-3">
+                <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <h3 class="font-bold text-lg">About Me</h3>
+              </div>
+              <%= render 'profiles/about', profile: @profile %>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Right Content Area -->
       <div class="lg:col-span-8 space-y-6">
-        <%= render 'profiles/spotify_section', profile: @profile %>
-        <%= render 'profiles/youtube_section', profile: @profile %>
+        <%= render 'profiles/spotify', profile: @profile %>
+        <%= render 'profiles/youtube', profile: @profile %>
       </div>
-
     </div>
   </div>
 </div>
