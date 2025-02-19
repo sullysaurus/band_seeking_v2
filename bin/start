@@ -3,14 +3,25 @@
 # Exit on error
 set -e
 
+# Extract host and port from DATABASE_URL
+if [[ $DATABASE_URL =~ ^postgres(ql)?://[^:]+:[^@]+@([^:]+):([0-9]+)/[^?]+ ]]; then
+    DB_HOST="${BASH_REMATCH[2]}"
+    DB_PORT="${BASH_REMATCH[3]}"
+else
+    echo "Error: Could not parse DATABASE_URL"
+    exit 1
+fi
+
 # Wait for database to be ready
 echo "Waiting for PostgreSQL to be ready..."
-while ! pg_isready -h $DATABASE_URL 2>/dev/null; do
-  sleep 1
+until nc -z -w 5 "$DB_HOST" "$DB_PORT"; do
+    echo "PostgreSQL is unavailable - sleeping"
+    sleep 1
 done
 
+echo "PostgreSQL is up - executing migrations"
+
 # Run database migrations
-echo "Running database migrations..."
 bundle exec rails db:migrate
 
 # Start the Rails server
