@@ -25,19 +25,27 @@ ENV RAILS_ENV="production" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development"
 
-# Throw-away build stage to reduce size of final image
-FROM base AS build
+# Install Node.js and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get update -qq \
+    && apt-get install -y nodejs \
+    && npm install -g npm@latest
 
-# Install packages needed to build gems
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev pkg-config && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+# Install essential Linux packages
+RUN apt-get update -qq && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    postgresql-client
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
+
+# Install JS dependencies
+COPY package.json package-lock.json ./
+RUN npm ci
 
 # Copy application code
 COPY . .
@@ -48,8 +56,9 @@ RUN bundle exec bootsnap precompile app/ lib/
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
-
-
+# Add build script
+COPY bin/start /usr/bin/
+RUN chmod +x /usr/bin/start
 
 # Final stage for app image
 FROM base
@@ -70,3 +79,6 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 # Start server via Thruster by default, this can be overwritten at runtime
 EXPOSE 80
 CMD ["./bin/thrust", "./bin/rails", "server"]
+
+# Start the server by default
+CMD ["/usr/bin/start"]
