@@ -81,3 +81,7 @@ test:
 #
 production:
   <<: *default
+
+# Add this section for Action Cable
+cable:
+  <<: *default
