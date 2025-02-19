@@ -95,4 +95,12 @@ Rails.application.configure do
 
   # Ensure JavaScript is properly compiled
   config.assets.js_compressor = :terser
+
+  # Action Cable configuration
+  config.action_cable.url =
+    "wss://#{ENV.fetch('RAILWAY_STATIC_URL', 'bandmate.up.railway.app')}/cable"
+  config.action_cable.allowed_request_origins = [
+    "https://#{ENV.fetch('RAILWAY_STATIC_URL', 'bandmate.up.railway.app')}",
+    %r{http:\/\/localhost:\d+}
+  ]
 end

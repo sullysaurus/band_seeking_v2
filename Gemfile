@@ -78,3 +78,5 @@ gem 'faker'
 gem 'active_storage_validations'
 
 gem "google-cloud-storage", "~> 1.44", require: false
+
+gem "redis", "~> 5.0"
