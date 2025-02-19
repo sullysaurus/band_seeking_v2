@@ -76,3 +76,5 @@ gem 'dotenv-rails', groups: [:development, :test]
 gem 'faker'
 
 gem 'active_storage_validations'
+
+gem "google-cloud-storage", "~> 1.44", require: false
